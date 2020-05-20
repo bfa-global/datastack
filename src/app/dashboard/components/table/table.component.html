@@ -1,0 +1,11 @@
+<nz-collapse [nzBordered]="false">
+  <nz-collapse-panel class="clear-border" [nzHeader]="component.title" nzActive="false">
+    <table datatable [dtOptions]="options" class="row-border hover">
+      <thead>
+        <tr>
+          <th *ngFor="let column of options.columns">{{column.columnName}}</th>
+        </tr>
+      </thead>
+    </table>
+  </nz-collapse-panel>
+</nz-collapse>

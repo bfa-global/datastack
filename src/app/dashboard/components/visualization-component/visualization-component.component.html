@@ -1,0 +1,62 @@
+<!-- Display loading handling if component needs to get data,  -->
+<ng-container *ngIf="component.dataRefs; else datalessComponent;">
+  <ng-container *ngIf="(observables|async) as responses">
+    <!-- JSON {{ response | json}} -->
+    <ng-container *ngIf="isFinishedLoadingResponses(responses); else loading;">
+      <ng-container *ngIf="!hasErrorInResponses(responses); else error;">
+        <ng-container *ngIf="hasDataInResponses(responses); else empty;">
+          <div class="visualization" [ngSwitch]="component.type">
+            <button *ngIf="(authService.authentication|async)" class="export btn btn-white"
+              (click)="exportService.export(responses[0].data, component.title)"><i
+                class="fas fa-download"></i></button>
+            <app-speedo *ngSwitchCase="'speedometer'" [data]="responses[0] ? responses[0].data : undefined"
+              [component]='component'></app-speedo>
+            <app-graph *ngSwitchCase="'graph'" [observables]="observables" [component]='component'></app-graph>
+            <app-data-pane *ngSwitchCase="'data-pane'" [observables]="observables" [component]='component'>
+            </app-data-pane>
+            <app-table *ngSwitchCase="'table'" [component]="component"></app-table>
+            <app-kpi-metric *ngSwitchCase="'kpi'" [data]="responses[0] ? responses[0].data : undefined"
+              [component]="component"></app-kpi-metric>
+            <ng-container *ngSwitchDefault></ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #error>
+      <div *ngIf="component.showError" class="error">
+        <app-endroad preset="warning" [text]="responses[0].error.message"></app-endroad>
+        <a routerLink="/login" class="btn btn-xs btn-primary m-t-sm" *ngIf="responses[0].error.code === 401">Login</a>
+      </div>
+    </ng-template>
+
+  </ng-container>
+
+  <ng-template #loading>
+    <div *ngIf="component.showLoading" class="loading-container">
+      <app-endroad preset="loading"></app-endroad>
+    </div>
+  </ng-template>
+
+  <ng-template #empty>
+    <div *ngIf="component.showError" class="error">
+      <app-endroad preset="empty" text="Data incomplete or unavailable."></app-endroad>
+    </div>
+  </ng-template>
+
+</ng-container>
+
+<!-- Otherwise display static components like controls -->
+<ng-template #datalessComponent>
+  <ng-container [ngSwitch]="component.type">
+    <app-dashboard-group *ngSwitchCase="'group'" [components]='component.components' (actions)=actions.emit($event)>
+    </app-dashboard-group>
+    <app-segmented-button *ngSwitchCase="'segmented-button'" [component]="component" (actions)=actions.emit($event)>
+    </app-segmented-button>
+    <app-date-picker *ngSwitchCase="'date-picker'" [component]="component" (actions)=actions.emit($event)>
+    </app-date-picker>
+    <app-dropdown-element *ngSwitchCase="'dropdown'" [component]="component" (actions)=actions.emit($event)>
+    </app-dropdown-element>
+    <ng-container *ngSwitchDefault></ng-container>
+  </ng-container>
+</ng-template>

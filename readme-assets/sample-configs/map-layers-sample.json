@@ -1,0 +1,138 @@
+[
+    {
+        "id": "users",
+        "title": "Users",
+        "sql": "SELECT * FROM {username}.users",
+        "type": "DataLayer",
+        "style": {
+            "layer": {
+                "marker-width": 5,
+                "marker-fill-opacity": 0.7,
+                "marker-allow-overlap": true,
+                "marker-line-width": 0,
+                "marker-line-opacity": 1,
+                "marker-line-color": "#000000",
+                "marker-comp-op": "multiply",
+                "marker-fill": "#FF0000"
+            }
+        },
+        "actions": [
+            {
+                "componentId": "dashboard",
+                "key": "layoutUrl",
+                "value": "assets/json/dashboard.json"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "title",
+                "value": "User Detail"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "dataItem",
+                "value": "{dataItem}"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "visible",
+                "value": true
+            }
+        ],
+        "filters": [
+            {
+                "title": "Business Sector",
+                "column": "business_sector",
+                "optionsSql": "SELECT distinct {username}.users.business_sector as title,  {username}.users.business_sector as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "Business Type",
+                "column": "business_type",
+                "optionsSql": "SELECT distinct {username}.users.business_type as title,  {username}.users.business_type as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "City",
+                "column": "city",
+                "optionsSql": "SELECT distinct {username}.users.city as title,  {username}.users.city as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "State",
+                "column": "state",
+                "optionsSql": "SELECT distinct {username}.users.state as title,  {username}.users.state as val FROM {username}.users order by title asc",
+                "type": "picker"
+            }
+        ]
+    },
+    {
+        "id": "fii",
+        "title": "FII",
+        "sql": "SELECT category, string_agg(spss_variable_name, ',') as vars, string_agg(viz, '|||') AS visualization_types, string_agg(regexp_replace(label, concat(spss_variable_name, '\\.'), concat(lower(spss_variable_name), '. ')), '|||') AS visualization_titles FROM fii_codebook_condensed GROUP BY category ORDER BY 1 ASC",
+        "type": "SelectableLayer",
+        "compoundTitleKey": "category",
+        "selectableVisualizationTypeKey": "visualization_types",
+        "selectableVisualizationTitleKey": "visualization_titles",
+        "compoundQueryKeys": [
+            "vars"
+        ],
+        "compoundSubQuery": "SELECT {0} FROM fii_demo_data_condensed",
+        "style": {
+            "layer": {
+                "polygon-fill": "ramp([data], (#c9e7df, #9CCDC1, #63A6A0, #337F7F, #0D585F), quantiles)",
+                "polygon-opacity": 0.8
+            },
+            "layer::outline": {
+                "line-width": 1,
+                "line-color": "#ffffff",
+                "line-opacity": 0.5
+            }
+        }
+    },
+    {
+        "id": "electric",
+        "title": "Electricity Access",
+        "sql": "SELECT * FROM electricity_access",
+        "type": "BaseLayer",
+        "style": {
+            "layer": {
+                "line-width": 1.5,
+                "line-color": "#383838",
+                "line-opacity": 0.6
+            }
+        }
+    },
+    {
+        "id": "solar",
+        "title": "Solar Potential",
+        "sql": "SELECT * FROM solar_potential",
+        "type": "BaseLayer",
+        "style": {
+            "layer": {
+                "polygon-fill": "ramp([ghi_kwh_m2], (#ecda9a, #f1b973, #f7945d, #f86f56, #ee4d5a), quantiles)",
+                "polygon-opacity": 0.6
+            },
+            "layer::outline": {
+                "line-width": 1,
+                "line-color": "#ffffff",
+                "line-opacity": 0.5
+            }
+        }
+    },
+    {
+        "id": "population",
+        "title": "Population Density",
+        "sql": "SELECT * FROM population",
+        "type": "BaseLayer",
+        "style": {
+            "layer": {
+                "polygon-fill": "ramp([dn], (#f7f7f7, #cccccc, #969696, #636363, #252525), quantiles)"
+            },
+            "layer::outline": {
+                "line-width": 0.1,
+                "line-color": "#ffffff",
+                "line-opacity": 1
+            }
+        }
+    }
+]

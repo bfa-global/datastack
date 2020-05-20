@@ -1,0 +1,33 @@
+$sidenav-width: 220px;
+
+@media (min-width: 768px) {
+  .content-padding {
+    margin-left: $sidenav-width;
+    width: calc(100% - #{$sidenav-width}) !important;
+  }
+}
+
+.footer {
+  background: none repeat scroll 0 0 white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  border-top: 1px solid #e7eaec;
+}
+
+.footer-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: inline-block;
+  float: right;
+}
+
+.logo-container > a {
+  padding-left: 10px;
+}

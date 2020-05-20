@@ -1,0 +1,5 @@
+<div class=" flex">
+  <div class="m-b-sm-not-last" *ngFor="let component of components">
+    <app-visualization-component [component]="component" (actions)=actions.emit($event)></app-visualization-component>
+  </div>
+</div>

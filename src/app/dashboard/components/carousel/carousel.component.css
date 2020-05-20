@@ -1,0 +1,13 @@
+.carousel-group {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.carousel-item {
+  display: inline-block;
+  float: none;
+}
+
+.row {
+  flex-wrap: nowrap;
+}

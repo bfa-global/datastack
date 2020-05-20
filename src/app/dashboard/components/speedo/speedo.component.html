@@ -1,0 +1,14 @@
+<div class="speedometer" (resized)="onResized($event)">
+  <svg class="gauge" [attr.width]="config.width" [attr.height]="config.height">
+    <g class="arc" [attr.transform]="translate(r,r)">
+      <path *ngFor="let tick of tickData; let i = index" [attr.fill]="config.arcColors[i]" [attr.d]="arc(tick, i)">
+      </path>
+    </g>
+    <g class="label" [attr.transform]="translate(r,r)">
+      <text *ngFor="let tick of ticks" [attr.transform]="textTransform(tick, r)">{{text(tick)}}</text>
+    </g>
+    <g [attr.transform]="translate(r,r)">
+      <path class="pointer" [ngClass]="{animated:shouldAnimate}" [attr.d]="pointerLine()" [attr.transform]="rotate(pointerAngle)"></path>
+    </g>
+  </svg>
+</div>

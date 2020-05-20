@@ -1,0 +1,44 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu" style="">
+      <li class="nav-header">
+        <div class="profile-element">
+          <span class="clear" style="font-size: 24px">
+            <a class="full-logo" routerLink="/app">
+              <img class="logo" src="assets/images/logos/data-stack-offwhite.svg">&nbsp;<strong class="font-bold">DataStack</strong>
+            </a>
+          </span>
+        </div>
+        <div class="logo-element" style="font-size: 24px">
+          <img class="logo" src="assets/images/logos/data-stack-offwhite.svg">
+        </div>
+      </li>
+
+      <li style="margin-top:10px;"></li>
+
+      <li class="loading" *ngIf="!(menuService.availableMenus|async)">
+        <app-endroad preset="loading" textColor="#eeeeee"></app-endroad>
+      </li>
+
+      <li *ngFor="let tierOne of menuService.availableMenus|async">
+        <a routerLinkActive="router-link-active" [routerLink]="tierOne.href ? ( tierOne.layout_url ? 'dashboard/': '') + tierOne.href : null">
+          <i [ngClass]="tierOne.icon" style="font-size:16px;"></i>
+          <span class="nav-label">{{tierOne.title}}</span>
+          <span *ngIf="tierOne.children && tierOne.children.length > 0" class="fa arrow"></span>
+        </a>
+        <ul *ngIf="tierOne.children && tierOne.children.length > 0" class="nav nav-second-level collapse">
+          <li *ngFor="let tierTwo of tierOne.children">
+            <a routerLinkActive="router-link-active" [routerLink]="tierTwo.href ? tierTwo.href : null">{{tierTwo.title}}
+              <span *ngIf="tierTwo.children && tierTwo.children.length > 0" class="fa arrow"></span>
+            </a>
+            <ul *ngIf="tierTwo.children && tierTwo.children.length > 0" class="nav nav-third-level collapse">
+              <li *ngFor="let tierThree of tierTwo.children">
+                <a routerLinkActive="router-link-active" [routerLink]="tierThree.href ? tierThree.href : null">{{tierThree.title}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>

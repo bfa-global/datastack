@@ -1,0 +1,6 @@
+<div class="p-w-sm">
+  <div class="filter" *ngFor="let filter of layer.filters">
+    <label>{{filter.title}}</label>
+    <app-picker-filter *ngIf="filter.type === 'picker'" [filter]="filter" [datasource]="layer.datasource" (selectedFilter)="selectedFilter($event)"></app-picker-filter>
+  </div>
+</div>

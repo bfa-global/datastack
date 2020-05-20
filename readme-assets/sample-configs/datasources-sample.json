@@ -1,0 +1,270 @@
+[
+    {
+        "id": "test-api",
+        "openapi": "3.0.0",
+        "info": {
+            "version": "1.0.0",
+            "title": "Dummy Test API",
+            "description": "An api that provides dummy data"
+        },
+        "servers": [
+            {
+                "url": "https://dummy-test-data-api.com/"
+            }
+        ],
+        "paths": {
+            "summary/{period}": {
+                "get": {
+                    "description": "Returns dummy summaries grouped by day based on a range of dates and transaction type.",
+                    "operationId": "summary",
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "in": "header",
+                            "description": "Value used to provide authenitcation",
+                            "required": false,
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "startDate",
+                            "mapsToInResponse": "date",
+                            "in": "query",
+                            "description": "Start of range to fetch summaries",
+                            "required": true,
+                            "schema": {
+                                "type": "date",
+                                "format": "YYYY-MM-DD",
+                                "option": "lower-limit"
+                            }
+                        },
+                        {
+                            "name": "endDate",
+                            "in": "query",
+                            "description": "End of range to fetch summaries",
+                            "mapsToInResponse": "date",
+                            "required": true,
+                            "schema": {
+                                "type": "date",
+                                "format": "YYYY-MM-DD",
+                                "option": "upper-limit"
+                            }
+                        },
+                        {
+                            "name": "reportType",
+                            "in": "query",
+                            "description": "Type of transaction to fetch",
+                            "required": true,
+                            "schema": {
+                                "type": "string",
+                                "enum": [
+                                    "retail",
+                                    "credit"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "period",
+                            "in": "path",
+                            "description": "Defines the group the summary represents: daily, monthly, yearly",
+                            "required": true,
+                            "schema": {
+                                "type": "string",
+                                "enum": [
+                                    "daily",
+                                    "monthly",
+                                    "yearly"
+                                ]
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "a summary of transactions over the specified period of time",
+                            "dataPath": "data",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/Summary"
+                                    }
+                                }
+                            }
+                        },
+                        "default": {
+                            "description": "unexpected error",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/Error"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "components": {
+            "schemas": {
+                "SummaryResponse": {
+                    "allOf": [
+                        {
+                            "$ref": "#/components/schemas/Response"
+                        },
+                        {
+                            "required": [
+                                "data"
+                            ],
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/TransactionResponse"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Summary": {
+                    "allOf": [
+                        {
+                            "$ref": "#/components/schemas/Response"
+                        },
+                        {
+                            "required": [
+                                "data"
+                            ],
+                            "properties": {
+                                "date": {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD"
+                                },
+                                "number_tx": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "value_tx": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "number_success": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "number_failed": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "TransactionResponse": {
+                    "allOf": [
+                        {
+                            "$ref": "#/components/schemas/Response"
+                        },
+                        {
+                            "required": [
+                                "data",
+                                "total_count"
+                            ],
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Transaction"
+                                    }
+                                },
+                                "page": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "per_page": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "page_count": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "total_count": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "option": "pagination-total-count"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Transaction": {
+                    "required": [
+                        "id",
+                        "amount",
+                        "source",
+                        "destination",
+                        "transactionDate",
+                        "responseCode"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "amount": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "source": {
+                            "type": "string"
+                        },
+                        "destination": {
+                            "type": "string"
+                        },
+                        "transactionDate": {
+                            "type": "date",
+                            "format": "YYYY-MM-DD"
+                        },
+                        "responseCode": {
+                            "type": "string"
+                        },
+                        "sessionID": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "Response": {
+                    "required": [
+                        "status",
+                        "message"
+                    ],
+                    "properties": {
+                        "status": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "Error": {
+                    "required": [
+                        "code",
+                        "message"
+                    ],
+                    "properties": {
+                        "code": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

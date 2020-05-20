@@ -1,0 +1,11 @@
+<h3 class="handle move-pointer" *ngIf="title">{{title}}</h3>
+<small>
+  <app-spread>
+    <div left class="text-left">
+      <ng-content #left select="[left]"></ng-content>
+    </div>
+    <div right class="text-right">
+      <ng-content select="[right]"></ng-content>
+    </div>
+  </app-spread>
+</small>

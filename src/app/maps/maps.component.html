@@ -1,0 +1,21 @@
+<div class="flex">
+    <div class="flex flex-item flex-grow" style="flex-direction: column; position: relative;">
+        <div class="map flex-item flex-grow" leaflet [leafletOptions]="options" [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
+            <layer *ngFor="let layer of mapLayerService.allActiveLayers()" [map]="map" [client]="cartoClient" [mapLayer]="layer" (actions)="handleActions($event)"></layer>
+        </div>
+        <app-map-drawer></app-map-drawer>
+    </div>
+    <div class="relative">
+        <app-map-side-nav>
+            <app-layer-detail *ngIf="mapSideNavService.layerDetail as layer" [layer]="layer"></app-layer-detail>
+            <app-active-layers *ngIf="!mapSideNavService.addLayer && !mapSideNavService.addCompoundLayer && !mapSideNavService.layerDetail"></app-active-layers>
+            <app-add-layer *ngIf="mapSideNavService.addLayer && !mapSideNavService.layerDetail"></app-add-layer>
+            <app-add-compound-layer *ngIf="mapSideNavService.addCompoundLayer && !mapSideNavService.layerDetail"></app-add-compound-layer>
+        </app-map-side-nav>
+    </div>
+    <nz-drawer [nzClosable]="false" [nzVisible]="dashboard.visible" [nzPlacement]="dashboard.placement" [nzTitle]="dashboard.title" [nzHeight]="dashboard.height" (nzOnClose)="close()">
+        <div class="vertical-scroll">
+            <app-dashboard #dashcom [layoutUrl]="dashboard.layoutUrl" [config]=dashboard></app-dashboard>
+        </div>
+    </nz-drawer>
+</div>

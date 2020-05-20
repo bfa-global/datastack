@@ -1,0 +1,12 @@
+/* :host(app-spread){ */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-grow: 1;
+}

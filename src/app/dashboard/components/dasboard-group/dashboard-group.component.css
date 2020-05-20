@@ -1,0 +1,21 @@
+.m-b-sm-not-last:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.flex>* {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-direction: row;
+    min-width: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

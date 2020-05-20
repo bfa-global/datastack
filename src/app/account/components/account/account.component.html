@@ -1,0 +1,108 @@
+<app-card title="Profile">
+  <form nz-form [formGroup]="profileForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="firstName" id="firstName" />
+        <nz-form-explain *ngIf="profileForm.get('firstName')?.dirty && profileForm.get('firstName')?.errors">
+          The input is not valid Last Name!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lastName">Last Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="lastName" id="lastName" />
+        <nz-form-explain *ngIf="profileForm.get('lastName')?.dirty && profileForm.get('lastName')?.errors">
+          The input is not valid First Name!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="email" id="email" />
+        <nz-form-explain *ngIf="profileForm.get('email')?.dirty && profileForm.get('email')?.errors">
+          The input is not valid E-mail!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="profileForm.controls['phoneNumber']">
+        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+        <nz-form-explain *ngIf="profileForm.get('phoneNumber')?.dirty && profileForm.get('phoneNumber')?.errors">
+          Please input your phone number!</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <div class="flex-row flex-space-between">
+        <div class="text-left">
+          <span class="text-success" *ngIf="profileMessageSuccess">{{profileMessageSuccess}}</span>
+          <span class="text-danger" *ngIf="profileMessageError">{{profileMessageError}}</span>
+        </div>
+        <div class="text-right">
+          <button nz-button nzType="primary" (click)="submitProfileForm()"
+            [nzLoading]="(authService.loading|async)">Update Account</button>
+        </div>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</app-card>
+
+<app-card title="Password">
+  <form nz-form [formGroup]="passwordForm">
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="oldPassword" nzRequired>Old Password</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input type="password" id="oldPassword" formControlName="oldPassword"
+          (ngModelChange)="updateConfirmValidator()" />
+        <nz-form-explain *ngIf="passwordForm.get('oldPassword')?.dirty && passwordForm.get('oldPassword')?.errors">
+          Please
+          input your old password!</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="newPassword" nzRequired>New Password</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input type="password" id="newPassword" formControlName="newPassword"
+          (ngModelChange)="updateConfirmValidator()" />
+        <nz-form-explain *ngIf="passwordForm.get('newPassword')?.dirty && passwordForm.get('newPassword')?.errors">
+          Please
+          input your new password!</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+        <nz-form-explain *ngIf="passwordForm.get('checkPassword')?.dirty && passwordForm.get('checkPassword')?.errors">
+          <ng-container *ngIf="passwordForm.get('checkPassword')?.hasError('required')">
+            Please confirm your new password!
+          </ng-container>
+          <ng-container *ngIf="passwordForm.get('checkPassword')?.hasError('confirm')">
+            Two passwords that you enter is inconsistent!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <div class="flex-row flex-space-between">
+          <div class="text-left">
+            <span class="text-success" *ngIf="passwordMessageSuccess">{{passwordMessageSuccess}}</span>
+            <span class="text-danger" *ngIf="passwordMessageError">{{passwordMessageError}}</span>
+          </div>
+          <div class="text-right">
+            <button nz-button nzType="primary" (click)="submitPasswordForm()"
+              [nzLoading]="(authService.loadingPasswordChange|async)">Update Password</button>
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+</app-card>

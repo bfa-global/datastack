@@ -1,0 +1,22 @@
+<app-back-button (click)="mapSideNavService.unsetDetail()"></app-back-button>
+
+<div class="layer-group">
+  <h4>{{layer.title}}</h4>
+</div>
+
+
+<nz-collapse [nzBordered]="false">
+  <nz-collapse-panel nzHeader="Filter" *ngIf="layer.filters && layer.filters.length > 0" nzActive="true">
+    <app-layer-filters *ngIf="layer.filters" [layer]="layer"></app-layer-filters>
+  </nz-collapse-panel>
+  <nz-collapse-panel nzHeader="Style" *ngIf="layer.style" nzActive="true">
+    <app-layer-style [layer]="layer"></app-layer-style>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<span (click)="mapLayerService.exportDataForLayer(layer);" *ngIf="mapLayerService.loadingExportData === false"
+  class="btn layer-group btn-block text-center text-info p-w-sm">Export Layer Data</span>
+<span (click)="mapLayerService.exportDataForLayer(layer);" *ngIf="mapLayerService.loadingExportData === true"
+  class="btn layer-group btn-block text-center p-w-sm">Exporting... <i class="fas fa-circle-notch fa-spin"></i></span>
+<span (click)="mapLayerService.deactivateLayer(layer);mapSideNavService.unsetDetail()"
+  class="btn layer-group btn-block text-center text-danger p-w-sm">Remove Layer</span>

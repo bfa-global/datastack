@@ -1,0 +1,4 @@
+::ng-deep 
+div[class^="text-"] > div{
+  margin-bottom: 10px;  
+}

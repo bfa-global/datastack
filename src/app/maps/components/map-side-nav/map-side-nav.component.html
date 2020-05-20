@@ -1,0 +1,9 @@
+<!-- <div class="toggle pointer" (click)="mapSideNavService.toggleSideNav()"
+  [ngClass]="{'toggle-closed': !mapSideNavService.hideSideNav}"> -->
+
+<!-- TODO: Fix map moving offscreen google chrome -->
+<!-- <i class=" fas fa-plus " [ngClass]=" {'x': !mapSideNavService.hideSideNav, 'text-primary' :mapSideNavService.hideSideNav, 'text-danger' :!mapSideNavService.hideSideNav }"></i> -->
+<!-- </div> -->
+<nav id="sidebar" class="flex-item navbar-dark bg-dark" [ngClass]="{'hidden': mapSideNavService.hideSideNav }">
+  <ng-content></ng-content>
+</nav>

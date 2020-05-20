@@ -1,0 +1,36 @@
+<div class="header content-container animated" [class.content-padding]="sidenavService.shown">
+  <div class="header-content content  content-width">
+    <div class="header-left">
+      <div (click)="sidenavService.toggleShown()" class="btn btn-primary ">
+        <i class="fa fa-bars"></i>
+      </div>
+      <h2 *ngIf="title && title.length > 0">{{title}}</h2>
+    </div>
+    <div class="header-right">
+      <nz-dropdown *ngIf="(auth.authentication|async)?.token; else login;" [nzPlacement]="'topRight'">
+        <div class="header-dropdown" nz-dropdown>
+          <span class="user-name">{{(auth.authentication|async).user.firstName}}
+            {{(auth.authentication|async).user.lastName}}</span>&nbsp;
+          <i class="fas fa-user-circle" style="font-size: 20px;"></i>
+        </div>
+        <ul nz-menu>
+          <li nz-menu-item>
+            <a routerLink="/app/account">Account</a>
+          </li>
+          <li *ngIf="auth.isAdmin()" nz-menu-item>
+            <a routerLink="/app/settings">Settings</a>
+          </li>
+          <hr style="margin:0;">
+          <li nz-menu-item>
+            <a class="text-danger bold" (click)="auth.logout()">Logout</a>
+          </li>
+        </ul>
+      </nz-dropdown>
+      <ng-template #login>
+        <div class="btn btn-white" routerLink="/login">
+          login
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

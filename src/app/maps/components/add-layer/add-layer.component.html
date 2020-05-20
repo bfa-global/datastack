@@ -1,0 +1,52 @@
+<div>
+  <app-back-button (click)="mapSideNavService.addLayer=false"></app-back-button>
+
+  <div class="layer-group">
+    <h4>Add Data Layer</h4>
+    <ng-container *ngIf="mapLayerService.inactiveDataLayers() as allDataLayers">
+      <ng-container *ngIf="allDataLayers.length !== 0; else empty;">
+        <div *ngFor="let layer of allDataLayers" class="layer row-item pointer" (click)="displayLayer(layer)">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-plus  text-primary"></i>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="layer-group">
+    <h4>Add Selectable Layer</h4>
+    <ng-container *ngIf="mapLayerService.inactiveSelectableLayers() as allSelectableLayers">
+      <ng-container *ngIf="allSelectableLayers.length !== 0; else empty;">
+        <div *ngFor="let layer of allSelectableLayers" class="layer row-item pointer" (click)="displayLayer(layer)">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-plus  text-primary"></i>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="layer-group">
+    <h4>Add Base Layer</h4>
+    <ng-container *ngIf="mapLayerService.inactiveBaseLayers() as allBaseLayers">
+      <ng-container *ngIf="allBaseLayers.length !== 0; else empty;">
+        <div *ngFor="let layer of allBaseLayers" class="layer row-item pointer" (click)="displayLayer(layer)">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-plus  text-primary"></i>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <app-endroad preset="loading"></app-endroad>
+  </div>
+</ng-template>
+
+<ng-template #empty>
+  <div class="row-item">
+    No layers to display.
+  </div>
+</ng-template>

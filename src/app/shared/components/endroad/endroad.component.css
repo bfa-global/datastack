@@ -1,0 +1,20 @@
+.root {
+    color: #585858;
+    text-align: center;
+}
+
+.overlay {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    top: 50%;
+}
+
+.overlay>i {
+    margin-bottom: .5rem;
+}
+
+.inline {
+    display: block;
+}

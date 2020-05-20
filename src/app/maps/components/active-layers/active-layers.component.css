@@ -1,0 +1,35 @@
+.layer-group {
+  padding-bottom: 25px;
+}
+
+.title {
+  padding: 0 15px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title>* {
+  display: flex;
+}
+
+h3, h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.layer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.row-item {
+  padding: 10px 15px;
+}
+
+.layer:hover {
+  background-color: #eeeeee;
+}

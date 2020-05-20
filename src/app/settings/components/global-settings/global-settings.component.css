@@ -1,0 +1,11 @@
+.inline-flex-row {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.full-width {
+  width: 100%;
+}

@@ -1,0 +1,9 @@
+.graph {
+    width: 100%;
+    text-align: center;
+}
+
+.line {
+    fill: transparent;
+    box-shadow: 5px 10px #888888;
+}

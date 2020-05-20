@@ -1,0 +1,254 @@
+[
+    {
+        "id": "bigquery-api",
+        "openapi": "3.0.0",
+        "info": {
+            "version": "1.0.0",
+            "title": "BigQuery Query Job API",
+            "description": "An api that provides access to query BigQuery dataset tables of a given project"
+        },
+        "servers": [
+            {
+                "url": "https://bigquery.googleapis.com/bigquery/v2/"
+            }
+        ],
+        "paths": {
+            "projects/{projectId}/queries": {
+                "post": {
+                    "description": "Runs a BigQuery SQL query synchronously and returns query results if the query completes within a specified timeout.",
+                    "operationId": "jobs.query",
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "in": "header",
+                            "description": "Value used to provide authenitcation",
+                            "required": false,
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "projectId",
+                            "in": "path",
+                            "description": "Project ID of the query request.",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "prettyPrint",
+                            "in": "query",
+                            "description": "Returns response with indentations and line breaks.",
+                            "required": false,
+                            "schema": {
+                                "type": "boolean"
+                            }
+                        }
+                    ],
+                    "requestBody": {
+                        "description": "",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BigQueryRequest"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "A BigQuery response object, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query#response-body",
+                            "dataPath": "rows",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/BigQueryResponse"
+                                    }
+                                }
+                            }
+                        },
+                        "default": {
+                            "description": "unexpected error",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/ErrorProto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "components": {
+            "schemas": {
+                "BigQueryRequest": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string"
+                        },
+                        "queryParameters": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/QueryParameters"
+                            }
+                        },
+                        "useLegacySql": {
+                            "type": "boolean"
+                        },
+                        "parameterMode": {
+                            "type": "string",
+                            "enum": [
+                                "NAMED",
+                                "POSITIONAL"
+                            ]
+                        }
+                    }
+                },
+                "QueryParameters": {
+                    "type": "object",
+                    "properties": {
+                        "parameterType": {
+                            "$ref": "#/components/schemas/ParameterType"
+                        },
+                        "parameterValue": {
+                            "$ref": "#/components/schemas/ParameterValue"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ParameterType": {
+                    "type":"object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "DATE"
+                            ]
+                        }
+                    }
+                },
+                "ParameterValue": {
+                    "type":"object",
+                    "required": [
+                        "value"
+                    ],
+                    "properties": {
+                        "value": {
+                            "type": "string",
+                            "format": "YYYY-MM-DD"
+                        }
+                    }
+                },
+                "BigQueryResponse": {
+                    "allOf": [
+                        {
+                            "required": [
+                                "schema",
+                                "rows",
+                                "totalRows"
+                            ],
+                            "properties": {
+                                "schema": {
+                                    "$ref": "#/definitions/BigQueryTableSchema"
+                                },
+                                "rows": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/BigQueryRow"
+                                    }
+                                },
+                                "totalRows": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "BigQueryTableSchema": {
+                    "allOf": [
+                        {
+                            "required": [
+                                "fields"
+                            ],
+                            "properties": {
+                                "fields": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/BigQueryTableFieldSchema"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "BigQueryTableFieldSchema": {
+                    "required": [
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "BigQueryRow": {
+                    "allOf": [
+                        {
+                            "required": [
+                                "f"
+                            ],
+                            "properties": {
+                                "f": {
+                                    "$ref": "#/definitions/BigQueryRowValue"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "BigQueryRowValue": {
+                    "required": [
+                        "v"
+                    ],
+                    "properties": {
+                        "v": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ErrorProto": {
+                    "required": [
+                        "reason",
+                        "location",
+                        "debugInfo",
+                        "message"
+                    ],
+                    "properties": {
+                        "reason": {
+                            "type": "string"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "debugInfo": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

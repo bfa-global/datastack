@@ -1,0 +1,30 @@
+<app-card title="Global Settings">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <form #timeoutForm="ngForm" class="m-t-sm inline-flex-row full-width" user="form"
+        (ngSubmit)="submitNewSetting(timeoutSetting._id, { interval: timeoutForm.value.timeout, unit: 'minutes' })">
+        <div class="inline-flex-row m-r-sm">
+          <label>Timeout:</label>&nbsp;
+          <input *ngIf="timeoutSetting && timeoutSetting.value" style="max-width: 60px; text-align: center;"
+            [ngModel]="timeoutSetting.value.interval" name="timeout" type="number" class="form-control"
+            placeholder="Timeout" required="">
+          &nbsp;<span *ngIf="timeoutSetting && timeoutSetting.value">{{timeoutSetting.value.unit}}</span>
+        </div>
+        <button nz-button nzType="secondary" [nzLoading]="(globalSettingsService.loading|async)">Update</button>
+      </form>
+    </div>
+    <div class="col-12 col-md-6">
+      <form #guestForm="ngForm" class="m-t-sm inline-flex-row full-width" user="form"
+        (ngSubmit)="submitNewSetting(guestSetting._id, guestForm.value.guest)">
+        <div class="inline-flex-row m-r-sm">
+          <label>Guest limitations:</label>&nbsp;
+          <input *ngIf="guestSetting && guestSetting.value" style="max-width: 60px; text-align: center;"
+            [ngModel]="guestSetting.value" name="guest" type="number" class="form-control" placeholder="Timeout"
+            required="">
+          &nbsp;<span>records</span>
+        </div>
+        <button nz-button nzType="secondary" [nzLoading]="(globalSettingsService.loading|async)">Update</button>
+      </form>
+    </div>
+  </div>
+</app-card>

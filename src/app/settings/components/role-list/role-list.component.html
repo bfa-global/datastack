@@ -1,0 +1,142 @@
+<app-card title="Roles">
+    <div toolbar class="ibox-tools">
+        <span class="pointer" (click)="showNewRoleModal()"><b>New Role</b>&nbsp;<i class="fas fa-plus"></i></span>
+    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="table-actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of roles; let i = index">
+                <td>{{role.name}}</td>
+                <td>
+                    <i (click)="showEditRoleModal(role)" title="edit role"
+                        *ngIf="role.slug !== 'admin' && role.slug !== 'guest'" class="fas fa-edit m-lr-xs pointer"></i>
+                    <i (click)="showTransfer(role)" class="fas fa-sign-in-alt m-lr-xs pointer"
+                        [ngClass]="{'btn-offset':role.slug === 'admin' || role.slug === 'guest'}" title="transfer"></i>
+                    <i (click)="showEditPermissionModal(role)" title="edit permissions"
+                        class="fas fa-key m-lr-xs pointer"></i>
+                    <span nz-popconfirm nzTitle="Confirm delete role '{{role.name}}'?" nzOkText="Delete"
+                        nzOkType="danger" nzPlacement="leftBottom" (nzOnConfirm)="deleteRole(role)"
+                        *ngIf="role.slug !== 'admin' && role.slug !== 'guest'">
+                        <i title="delete" class="fas fa-trash-alt  m-lr-xs pointer"></i>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</app-card>
+
+<nz-modal [(nzVisible)]="modalRoleVisible" [nzTitle]="modalRole._id !== undefined ? 'Edit Role' : 'New Role'"
+    [nzFooter]="modalRoleFooter" (nzOnCancel)="this.closeRoleForm(); this.clearRoleForm(roleForm)"
+    (nzOnOk)="submitRole(roleForm)">
+    <form #roleForm="ngForm" class="m-t-sm" role="form" (ngSubmit)="submitRole(roleForm)">
+        <div class="form-group">
+            <label>Name</label>
+            <input [ngModel]="modalRole.name" name="name" type="name" class="form-control" placeholder="Name"
+                required="">
+        </div>
+        <p *ngIf="modalRoleError" class="text-danger">{{modalRoleError}}</p>
+    </form>
+    <ng-template #modalRoleFooter>
+        <button nz-button nzType="default" (click)="this.closeRoleForm(); this.clearRoleForm(roleForm);">Cancel</button>
+        <button nz-button nzType="primary" (click)="submitRole(roleForm)"
+            [nzLoading]="(roleSettingsService.loading|async)">{{modalRole._id !== undefined ? "Update" : "Create"}}</button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="modalPermissionVisible" nzTitle="Edit Permissions" [nzFooter]="modalPermissionFooter"
+    (nzOnCancel)="this.closePermissionForm()" (nzOnOk)="togglePermission($event.target.checked, 'CREATE', resourceRole)">
+    <!-- <form #permissionForm="ngForm" class="m-t-sm" role="form" (ngSubmit)="submitRolePermission(permissionForm)"> -->
+    <div class="form-group " *ngIf="modalPermissionRole._id !== undefined">
+        <div class="m-b-xl" *ngIf="!roleHasAllResources(modalPermissionRole)">
+            <label>Add a resource to set permissions</label>
+            <div class="flex-space-between" style="flex-wrap: nowrap;">
+                <nz-select style="width:80%;padding-right:10px;" name="resource" [(ngModel)]="newResource"
+                    nzPlaceHolder="Choose Resource">
+                    <ng-container *ngFor="let resource of (roleSettingsService.resources|async)">
+                        <nz-option [nzValue]="resource" [nzLabel]="resource.name"
+                            *ngIf="!roleHasResource(modalPermissionRole, resource)">
+                        </nz-option>
+                    </ng-container>
+                </nz-select>
+                <button style="width:20%" nz-button nzType="primary" [disabled]="newResource===undefined"
+                    (click)="addResourceRole(modalPermissionRole, newResource)"
+                    [nzLoading]="(roleSettingsService.loading|async)">Add</button>
+
+            </div>
+        </div>
+
+        <table class="permission-table " *ngIf="modalPermissionRole.resourceRoles.length > 0">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Read</th>
+                    <th>List</th>
+                    <th>Create</th>
+                    <th>Modify</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resourceRole of modalPermissionRole.resourceRoles">
+                    <td>
+                        {{resourceRole.resource.name}}
+                    </td>
+                    <td>
+                        <input type="checkbox" [checked]="resourceRoleHasPermission(resourceRole, 'READ')"
+                            (change)="togglePermission($event.target.checked, 'READ', resourceRole)">
+                    </td>
+                    <td>
+                        <input type="checkbox" [checked]="resourceRoleHasPermission(resourceRole, 'LIST')"
+                            (change)="togglePermission($event.target.checked, 'LIST', resourceRole)">
+                    </td>
+                    <td>
+                        <input type="checkbox" [checked]="resourceRoleHasPermission(resourceRole, 'CREATE')"
+                            (change)="togglePermission($event.target.checked, 'CREATE', resourceRole)">
+                    </td>
+                    <td>
+                        <input type="checkbox" [checked]="resourceRoleHasPermission(resourceRole, 'MODIFY')"
+                            (change)="togglePermission($event.target.checked, 'MODIFY', resourceRole)">
+                    </td>
+                    <td>
+                        <input type="checkbox" [checked]="resourceRoleHasPermission(resourceRole, 'DELETE')"
+                            (change)="togglePermission($event.target.checked, 'DELETE', resourceRole)">
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <p *ngIf="modalPermissionError" class="text-danger">{{modalPermissionError}}</p>
+    <!-- </form> -->
+    <ng-template #modalPermissionFooter>
+        <button nz-button nzType="default" (click)="this.closePermissionForm();">Close</button>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="modalRoleTransferVisible && fromRole" nzTitle="Transfer Users"
+    [nzFooter]="modalRoleTransferFooter" (nzOnCancel)="this.closeTransferDeptForm()">
+    <form #transferForm="ngForm" class="m-t-sm" role="form">
+        <div class="form-group">
+            <p *ngIf="fromRole">Move all users from '{{fromRole.name}}' to</p>
+            <nz-select name="role" [(ngModel)]="toRole" nzPlaceHolder="Choose Role">
+                <div *ngFor="let role of (roleSettingsService.roles|async)">
+
+                    <nz-option [nzValue]="role" [nzLabel]="role.name" *ngIf="fromRole && role._id !== fromRole._id">
+                    </nz-option>
+                </div>
+            </nz-select>
+        </div>
+        <p *ngIf="modalRoleTransferError" class="text-danger">{{modalRoleTransferError}}</p>
+    </form>
+    <ng-template #modalRoleTransferFooter>
+        <button nz-button nzType="default" (click)="this.closeTransferDeptForm();">Cancel</button>
+        <button nz-button nzType="primary" (click)="initiateTransfer()"
+            [nzLoading]="(roleSettingsService.loading|async)">Transfer</button>
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,9 @@
+<ng-container *ngIf="(mapDrawerService.tabsDataArray | async) as data">
+  <!-- <div *ngIf="data && data.length > 0" class="toggle pointer" (click)="mapDrawerService.toggleDrawer()" [ngClass]="{'toggle-closed': !mapDrawerService.hideDrawer}">
+    <i class=" fas fa-plus " [ngClass]=" {'x': !mapDrawerService.hideDrawer, 'text-primary' :mapDrawerService.hideDrawer, 'text-danger' :!mapDrawerService.hideDrawer }"></i>
+  </div> -->
+  <div *ngIf="data && data.length > 0" id="drawer" class="flex-item drawer-dark bg-dark"
+    [ngClass]="{'hidden': mapDrawerService.hideDrawer }">
+    <app-map-drawer-tabs [tabs]="data"></app-map-drawer-tabs>
+  </div>
+</ng-container>

@@ -1,0 +1,33 @@
+.gray-bg {
+  height: 100vh;
+}
+
+.loginColumns {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px 20px 20px 20px;
+}
+
+.ibox-content {
+  clear: both;
+}
+
+.ibox-content {
+  background-color: #ffffff;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0;
+}
+
+.logo {
+  height: 24px;
+  width: auto;
+}
+
+.form-title {
+  /* text-transform: capitalize; */
+  color: #666666;
+}

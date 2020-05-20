@@ -1,0 +1,29 @@
+.visualization {
+  position: relative;
+}
+
+.export {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 101;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+
+.visualization:hover .export {
+  display: block;
+}
+
+.loading-container {
+  text-align: center;
+  position: relative;
+  min-height: 100px;
+  padding: 0;
+  margin: 0;
+}
+
+.error {
+  text-align: center;
+  white-space: normal;
+}

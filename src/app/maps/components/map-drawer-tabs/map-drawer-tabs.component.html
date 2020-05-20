@@ -1,0 +1,18 @@
+<div class="tabs-container">
+  <ul class="nav nav-tabs" role="tablist" dragula="tabs" [dragulaModel]="tabs">
+    <li *ngFor="let tab of tabs; let i = index">
+      <a class="nav-link" data-toggle="tab" (click)="index=i" [ngClass]="{active: i === index}"> {{tab.title}} </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active show">
+      <div class="panel-body">
+        <p><strong>Select a bar on the graphs below to plot the responses on the map. </strong></p>
+        <app-map-drawer-tab-chart *ngFor="let field of objectKeys(tabs[index].data); let j = index"
+          [title]="tabs[index].charts[field].title" [field]="field" [tab]="tabs[index]"></app-map-drawer-tab-chart>
+      </div>
+    </div>
+
+  </div>
+
+</div>

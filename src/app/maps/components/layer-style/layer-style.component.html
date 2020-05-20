@@ -1,0 +1,84 @@
+<div class="p-w-sm">
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['opacity'] !== undefined)">
+    <label>Opacity</label>
+    <nz-slider [(ngModel)]="layer.style.layer['opacity']" nzMax="1" nzMin="0" nzStep=".1"
+      (ngModelChange)="changed($event)" [nzTipFormatter]="opacityFormatter"></nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-opacity'] !== undefined)">
+    <label>Marker Opacity</label>
+    <nz-slider [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-opacity'] : layer.style['opacity']" nzMax="1" nzMin="0" nzStep=".1"
+      (ngModelChange)="changed($event)" [nzTipFormatter]="opacityFormatter"></nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-width'] !== undefined)">
+    <label>Marker Width</label>
+    <nz-slider [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-width'] : layer.style['weight']" nzMax="25" nzMin="1" (ngModelChange)="changed($event)">
+    </nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-fill-opacity'] !== undefined) || layer.style['fillOpacity'] !== undefined">
+    <label>Fill Opacity</label>
+    <nz-slider [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-fill-opacity'] : layer.style['fillOpacity']" nzMax="1" nzMin="0" nzStep=".1"
+      (ngModelChange)="changed($event)" [nzTipFormatter]="opacityFormatter"></nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-fill'] !== undefined) || layer.style['fillColor'] !== undefined">
+    <label>Fill Color</label>
+    <input type="text" [style.color]="(layer.style['layer']) ? (isLight(layer.style.layer['marker-fill']) ? '#000000' : '#FFFFFF') : (isLight(layer.style['fillColor']) ? '#000000' : '#FFFFFF')"
+      class="form-control btn btn-white" [cpAlphaChannel]="'disabled'"
+      [style.background-color]="(layer.style['layer']) ? layer.style.layer['marker-fill'] : layer.style['fillColor']" [(colorPicker)]="(layer.style['layer']) ? layer.style.layer['marker-fill'] : layer.style['fillColor']"
+      [cpPosition]="'top'" [value]="(layer.style['layer']) ? layer.style.layer['marker-fill'] : layer.style['fillColor']" (colorPickerChange)="changed($event)">
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-line-opacity'] !== undefined)">
+    <label>Line Opacity</label>
+    <nz-slider [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-line-opacity'] : layer.style['opacity']" nzMax="1" nzMin="0" nzStep=".1"
+      (ngModelChange)="changed($event)" [nzTipFormatter]="opacityFormatter"></nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-line-width'] !== undefined) || layer.style['width'] !== undefined">
+    <label>Line Width</label>
+    <nz-slider [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-line-width'] : layer.style['width']" nzMax="5" nzMin="0" nzStep=".1"
+      (ngModelChange)="changed($event)"></nz-slider>
+  </div>
+
+  <div class="style" *ngIf="(layer.style['layer'] && layer.style.layer['marker-line-color'] !== undefined) || layer.style['color'] !== undefined">
+    <label>Line Color</label>
+    <input type="text" [style.color]="(layer.style['layer']) ? (isLight(layer.style.layer['marker-line-color']) ? '#000000' : '#FFFFFF') : (isLight(layer.style['color']) ? '#000000' : '#FFFFFF')"
+      class="form-control btn btn-white" [cpAlphaChannel]="'disabled'"
+      [style.background-color]="(layer.style['layer']) ? layer.style.layer['marker-line-color'] : layer.style['color']"
+      [(colorPicker)]="(layer.style['layer']) ? layer.style.layer['marker-line-color'] : layer.style['color']" [cpPosition]="'top'"
+      [value]="(layer.style['layer']) ? layer.style.layer['marker-line-color'] : layer.style['color']" (colorPickerChange)="changed($event)">
+  </div>
+
+  <div class="style switch" *ngIf="(layer.style['layer'] && layer.style.layer['marker-allow-overlap'] !== undefined)">
+    <label>Allow Overlap</label>
+    <nz-switch [(ngModel)]="(layer.style['layer']) ? layer.style.layer['marker-allow-overlap'] : layer.style['marker-allow-overlap']" (ngModelChange)="changed($event)"></nz-switch>
+  </div>
+
+</div>
+
+<!-- " marker-width": 5, "marker-fill" : "#FF0000" , "marker-fill-opacity" : 0.7, "marker-allow-overlap" : true, "marker-line-width" : 0, "marker-comp-op" : "multiply" , } -->
+
+<!-- .icon {
+            display: inline-block;
+            color: rgba(0, 0, 0, .25);
+            font-size: 14px;
+            line-height: 1;
+            position: absolute;
+            top: 50%;
+            right: 11px;
+            z-index: 1;
+            width: 14px;
+            height: 14px;
+            margin-top: -7px;
+            font-size: 14px;
+            line-height: 14px;
+            transition: all .3s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            } -->

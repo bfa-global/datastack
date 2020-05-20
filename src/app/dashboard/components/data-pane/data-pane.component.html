@@ -1,0 +1,6 @@
+<div *ngFor="let row of component.options.rows" class="row">
+  <div *ngFor="let col of row.columns" class="col-sm-{{col.span}} m-b ">
+    <small><label *ngIf="col.title" class="text-primary text-uppercase b" [innerHtml]="col.title"></label></small>
+    <div *ngIf="col.dataKey" class="" [innerHtml]="dereference(col.dataKey)"></div>
+  </div>
+</div>

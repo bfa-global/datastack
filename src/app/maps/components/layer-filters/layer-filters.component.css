@@ -1,0 +1,7 @@
+label {
+    font-size: .8rem;
+}
+
+.filter:not(:last-child) {
+    margin-bottom: 10px;
+}

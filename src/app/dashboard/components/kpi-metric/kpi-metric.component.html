@@ -1,0 +1,9 @@
+<h1 class="no-margins elipsis" [ngClass]="indicatorColor(getDataPoint())">
+  <div class="flex">
+    <span *ngIf="(getDataPoint()) !== undefined && changeSymbol(getDataPoint()).length">
+      <i class="fas" [ngClass]="changeSymbol(getDataPoint())"></i></span>
+    <span *ngIf="(getDataPoint()) !== undefined" class="elipsis">{{format(getDataPoint())}}</span>
+  </div>
+  <span *ngIf="(getDataPoint()) === undefined && data !== undefined" class="elipsis gray">N/A</span>
+</h1>
+<small class="elipsis" *ngIf="component.options['small']" [innerHTML]="component.options.small"></small>

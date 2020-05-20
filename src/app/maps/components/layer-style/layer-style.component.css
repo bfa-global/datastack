@@ -1,0 +1,21 @@
+label {
+    font-size: .8rem;
+}
+
+.style {
+    min-height: 50px;
+}
+
+.style:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.switch>* {
+    display: flex;
+}

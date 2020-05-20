@@ -1,0 +1,9 @@
+<nz-select *ngIf="(this.filter.filterSubject|async)=== undefined || (this.filter.filterSubject|async)?.length > 0; else empty" [ngModel]="filter.selectedFilterValue" (ngModelChange)="selectedValue($event)" nzAllowClear [nzLoading]="!(this.filter.filterSubject|async)" [nzDisabled]="!(this.filter.filterSubject|async)" nzPlaceHolder="Choose" style="width: 100%;">
+  <nz-option *ngFor="let option of (this.filter.filterSubject|async)" [nzValue]="option" [nzLabel]="option.title"></nz-option>
+</nz-select>
+
+<ng-template #empty>
+  <div class="error">
+    No options available
+  </div>
+</ng-template>

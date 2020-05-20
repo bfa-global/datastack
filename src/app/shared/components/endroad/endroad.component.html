@@ -1,0 +1,9 @@
+<div class="root" [ngClass]="{
+  'overlay':config.mode==='overlay',
+  'inline':config.mode==='inline'
+}">
+  <i [class]="config.icon" [ngStyle]="{'font-size':config.iconSize}"></i>
+  <br *ngIf="config.layout==='stacked'">
+  <span *ngIf="config.layout!=='stacked'">&nbsp;</span>
+  <span [ngStyle]="{'color':config.textColor, 'font-size':config.fontSize}" [innerHTML]="config.text">loading...</span>
+</div>

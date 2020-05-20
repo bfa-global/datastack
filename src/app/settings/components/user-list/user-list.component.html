@@ -1,0 +1,80 @@
+<app-card title="Users">
+    <div toolbar class="ibox-tools">
+        <span class="pointer" (click)="showNewUserModal()"><b>New User</b>&nbsp;<i class="fas fa-plus"></i></span>
+    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+            <tr>
+                <!-- <th *ngFor="let column of options.columns">{{column.columnName}}</th> -->
+                <th>Name</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+                <td><span
+                        [ngClass]="{'disabled': user.isDisabled}">{{user.firstName}}&nbsp;{{user.lastName}}{{user.isDisabled?"&nbsp;(disabled)":""}}</span>
+                </td>
+                <td><span [ngClass]="{'disabled': user.isDisabled}"
+                        *ngIf="user.department">{{user.department.name}}</span></td>
+                <td><span [ngClass]="{'disabled': user.isDisabled}" *ngIf="user.role">{{user.role.name}}</span></td>
+                <td [ngClass]="{'disabled': user.isDisabled}">
+                    <i (click)="showEditUserModal(user)" title="edit user" class="fas fa-edit m-lr-xs"></i>
+                    <i (click)="flipActiveState(user)" [title]="user.isDisabled ? 'enable user' : 'disable user'"
+                        class="fas fa-user-slash  m-lr-xs"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</app-card>
+
+
+<nz-modal [(nzVisible)]="modalUserVisible" [nzTitle]="modalUser._id !== undefined ? 'Edit User' : 'New User'"
+    [nzFooter]="modalUserFooter" (nzOnCancel)="this.closeUserForm(); this.clearUserForm(userForm)">
+    <form #userForm="ngForm" class="m-t-sm" user="form" (ngSubmit)="submitUser(userForm)">
+        <div class="form-group">
+            <label>First Name</label>
+            <input [ngModel]="modalUser.firstName" name="firstName" type="name" class="form-control"
+                placeholder="First Name" required="">
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input [ngModel]="modalUser.lastName" name="lastName" type="name" class="form-control"
+                placeholder="Last Name" required="">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input [ngModel]="modalUser.email" name="email" type="email" class="form-control" placeholder="Email"
+                required="">
+        </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <input [ngModel]="modalUser.phone" name="phone" type="tel" class="form-control" placeholder="Phone Number"
+                required="">
+        </div>
+        <div class="form-group">
+            <label>Department</label>
+            <nz-select name="dept" [(ngModel)]="modalUser.department._id" nzPlaceHolder="Choose Department">
+                <nz-option [nzValue]="dept._id" [nzLabel]="dept.name"
+                    *ngFor="let dept of (departmentSettingsService.departments|async)">
+                </nz-option>
+            </nz-select>
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <nz-select name="role" [(ngModel)]="modalUser.role._id" nzPlaceHolder="Choose Role">
+                <nz-option [nzValue]="role._id" [nzLabel]="role.name"
+                    *ngFor="let role of (roleSettingsService.roles|async)">
+                </nz-option>
+            </nz-select>
+        </div>
+        <p *ngIf="modalUserError" class="text-danger">{{modalUserError}}</p>
+    </form>
+    <ng-template #modalUserFooter>
+        <button nz-button nzType="default" (click)="this.closeUserForm(); this.clearUserForm(userForm);">Cancel</button>
+        <button nz-button nzType="primary" (click)="submitUser(userForm)"
+            [nzLoading]="(userSettingsService.loading|async)">{{modalUser._id !== undefined ? "Update" : "Create"}}</button>
+    </ng-template>
+</nz-modal>

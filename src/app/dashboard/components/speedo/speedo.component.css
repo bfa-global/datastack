@@ -1,0 +1,21 @@
+.speedometer {
+    width: 100%;
+    height:auto;
+    text-align: center;
+}
+
+svg {
+    overflow: visible;
+}
+
+.animated{
+    transition: all .5s ease-out;
+
+}
+
+.gauge g.label text {
+    text-anchor: middle;
+    font-size: 14px;
+    font-weight: bold;
+    fill: #666;
+}

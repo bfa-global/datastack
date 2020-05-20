@@ -1,0 +1,82 @@
+<app-card title="Departments">
+    <div toolbar class="ibox-tools">
+        <span class="pointer" (click)="modalDepartmentVisible=true"><b>New Department</b>&nbsp;<i
+                class="fas fa-plus"></i></span>
+    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let department of departments; let i = index">
+                <td>{{department.name}}</td>
+                <td>{{department.description}}</td>
+                <td>
+                    <i (click)="showEditDepartmentModal(department)" title="edit"
+                        class="fas fa-edit m-lr-xs pointer"></i>
+                    <i (click)="showTransferForDepartment(department)" class="fas fa-sign-in-alt m-lr-xs pointer"
+                        title="transfer"></i>
+                    <span nz-popconfirm nzTitle="Confirm delete department '{{department.name}}'?" nzOkText="Delete"
+                        nzOkType="danger" nzPlacement="leftBottom" (nzOnConfirm)="deleteDepartment(department)">
+                        <i title="delete" class="fas fa-trash-alt  m-lr-xs pointer"></i>
+                    </span>
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</app-card>
+
+<nz-modal [(nzVisible)]="modalDepartmentVisible"
+    [nzTitle]="modalDepartment._id !== undefined ? 'Edit Department' : 'New Department'"
+    [nzFooter]="modalDepartmentFooter" (nzOnCancel)="this.closeDeptForm(); this.clearDeptForm(departmentForm)">
+    <form #departmentForm="ngForm" class="m-t-sm" role="form" (ngSubmit)="submitDepartment(departmentForm)">
+        <div class="form-group">
+            <label>Name</label>
+            <input [ngModel]="modalDepartment.name" name="name" type="name" class="form-control" placeholder="Name"
+                required="">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input [ngModel]="modalDepartment.description" name="description" type="description" class="form-control"
+                placeholder="Description" required="">
+        </div>
+        <p *ngIf="modalDepartmentError" class="text-danger">{{modalDepartmentError}}</p>
+    </form>
+    <ng-template #modalDepartmentFooter>
+        <button nz-button nzType="default"
+            (click)="this.closeDeptForm(); this.clearDeptForm(departmentForm);">Cancel</button>
+        <button nz-button nzType="primary" (click)="submitDepartment(departmentForm)"
+            [nzLoading]="(departmentSettingsService.loading|async)">{{modalDepartment._id !== undefined ? "Update" : "Create"}}</button>
+    </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="modalDepartmentTransferVisible && fromDepartment" nzTitle="Transfer Users"
+    [nzFooter]="modalDepartmentTransferFooter" (nzOnCancel)="this.closeTransferDeptForm()">
+    <form #transferForm="ngForm" class="m-t-sm" role="form">
+        <div class="form-group">
+            <p *ngIf="fromDepartment">Move all users from '{{fromDepartment.name}}' to</p>
+            <nz-select name="dept" [(ngModel)]="toDepartment" nzPlaceHolder="Choose Department">
+                <div *ngFor="let dept of (departmentSettingsService.departments|async)">
+
+                    <nz-option [nzValue]="dept" [nzLabel]="dept.name"
+                        *ngIf="fromDepartment && dept._id !== fromDepartment._id">
+                    </nz-option>
+                </div>
+            </nz-select>
+        </div>
+        <p *ngIf="modalDepartmentTransferError" class="text-danger">{{modalDepartmentTransferError}}</p>
+    </form>
+    <ng-template #modalDepartmentTransferFooter>
+        <button nz-button nzType="default" (click)="this.closeTransferDeptForm();">Cancel</button>
+        <button nz-button nzType="primary" (click)="initiateTransfer()"
+            [nzLoading]="(departmentSettingsService.loading|async)">Transfer</button>
+    </ng-template>
+</nz-modal>

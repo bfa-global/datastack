@@ -1,0 +1,24 @@
+.range-group {
+    display: flex;
+    flex-wrap: nowrap;
+    /* margin-left: 10px;
+    margin-right: 10px; */
+}
+
+.range-group>* {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    /* margin-left: 10px;
+    margin-right: 10px; */
+}
+
+.range-group>*:first-child {
+    /* margin-left: -10px; */
+    margin-right: 5px;
+}
+
+.range-group>*:last-child {
+    margin-left: 5px;
+    /* margin-right: -10px;/ */
+}

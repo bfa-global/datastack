@@ -1,0 +1,59 @@
+<div>
+  <span (click)="mapSideNavService.addLayer=true" class="layer-group btn-block text-right new pointer text-primary b p-r">Add Layer <i class="fas fa-plus"></i></span>
+
+  <ng-container *ngIf="(mapLayerService.activeDataLayers | async) as activeDataLayers">
+    <div class="layer-group" *ngIf="activeDataLayers.length > 0">
+      <div class="title">
+        <h4>Data Layers</h4>
+      </div>
+      <div *ngIf="activeDataLayers.length !== 0; else empty;" dragula="activeDataLayers" [dragulaModel]="[]">
+        <div *ngFor="let layer of activeDataLayers" (click)="mapSideNavService.layerDetail = layer" class="layer row-item pointer">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-chevron-right text-primary pointer"></i>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="(mapLayerService.activeSelectableLayers | async) as activeSelectableLayers">
+    <div class="layer-group" *ngIf="activeSelectableLayers.length > 0">
+      <div class="title">
+        <h4>Selectable Layers</h4>
+      </div>
+      <div *ngIf="activeSelectableLayers.length !== 0; else empty;" dragula="activeSelectableLayers" [dragulaModel]="[]">
+        <div *ngFor="let layer of activeSelectableLayers" (click)="mapSideNavService.layerDetail = layer" class="layer row-item pointer">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-chevron-right text-primary pointer"></i>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="(mapLayerService.activeBaseLayers | async) as activeBaseLayers">
+    <div class="layer-group" *ngIf="activeBaseLayers.length > 0">
+      <div class="title">
+        <h4>Base Layers</h4>
+      </div>
+      <div *ngIf="activeBaseLayers.length !== 0; else empty;" dragula="activeBaseLayers" [dragulaModel]="[]">
+        <div *ngFor="let layer of activeBaseLayers" (click)="mapSideNavService.layerDetail = layer" class="layer row-item pointer pointer">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-chevron-right text-primary pointer"></i>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>
+
+
+<ng-template #loading>
+  <div class="loading-container">
+    <app-endroad preset="loading"></app-endroad>
+  </div>
+</ng-template>
+
+<ng-template #empty>
+  <div class="row-item">
+    No layers to display.
+  </div>
+</ng-template>

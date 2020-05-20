@@ -1,0 +1,8 @@
+<div class="row" [ngClass]="{'carousel-group':section.carousel && section.carousel===true}" dragula="dashboardWigets" [dragulaModel]="section.items">
+  <div *ngFor="let element of section.elements" [class]="element.classes" [ngClass]="{'carousel-element':section.carousel && section.carousel===true}">
+    <app-card *ngIf="element.type === 'visualization'" [title]="element.title" [toolbar]="element.toolbar">
+      <app-visualization [visualization]="element"></app-visualization>
+    </app-card>
+    <app-tabs *ngIf="element.type === 'tabs'" [tabs]="element.tabs"></app-tabs>
+  </div>
+</div>

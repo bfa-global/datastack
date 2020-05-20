@@ -1,0 +1,11 @@
+<div class="dashboard" *ngIf="_page" dragula="sections" [dragulaModel]="_page">
+  <section *ngFor="let section of _page" class="section">
+    <app-section-header [title]="section.title">
+      <div left [innerHTML]="dereference(section.left)"></div>
+      <div right [innerHTML]="dereference(section.right)"></div>
+    </app-section-header>
+
+    <app-section-content [section]="section"></app-section-content>
+
+  </section>
+</div>

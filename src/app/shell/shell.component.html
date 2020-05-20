@@ -1,0 +1,10 @@
+<div class="flex">
+    <app-sidenav [class.sidenav-hidden]="!sidenavService.shown"></app-sidenav>
+    <div class="flex-item content-size gray-bg" [class.content-padding]="sidenavService.shown" id="page-wrapper">
+        <app-header></app-header>
+        <div class="content-width content">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer [class.content-padding]="sidenavService.shown"></app-footer>
+    </div>
+</div>

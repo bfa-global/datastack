@@ -1,0 +1,8 @@
+.fas:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.disabled {
+  color: lightgray;
+}

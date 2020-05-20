@@ -1,0 +1,133 @@
+<div class="gray-bg">
+    <div class="container">
+
+        <div class="loginColumns animated fadeInDown">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <h2 class="font-bold">
+                        <a routerLink="/" class="text-secondary full-logo">
+                            <img class="logo" src="assets/images/logos/data-stack-blue.svg">&nbsp;<strong
+                                class="font-bold">DataStack</strong>
+                        </a>
+                    </h2>
+
+                    <p>DataStack uses a new form of data architecture whose object is to increase and improve the
+                        <strong>Volume</strong>,
+                        <strong>Variety</strong>,
+                        <strong>Velocity</strong>, and
+                        <strong>Accuracy</strong> of data available to financial authorities and other stakeholders.</p>
+                    <p>This architecture seeks to collect, process, and draw insights from data that is
+                        <strong>Trusted</strong>,
+                        <strong>Timely</strong>, and
+                        <strong>Comprehensive</strong>, including transactional data, other data from financial
+                        institutions
+                        /
+                        agents,
+                        and non-financial data.
+                    </p>
+
+                    <div class="m-t">
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="ibox-content b-r-md p-xs">
+                        <h3 class="form-title">{{titleForMode()}}</h3>
+                        <form #f="ngForm" class="m-t-sm" role="form" (ngSubmit)="formSubmit(f)">
+                            <div *ngIf="mode === 'login' || mode === 'forgot-password'" class="form-group">
+                                <input ngModel name="email" type="email" class="form-control" placeholder="Email"
+                                    required="">
+                            </div>
+                            <div *ngIf="mode === 'login' || (mode === 'reset-forgot-password' && tokenValidated === true && (authService.loading|async) === false) "
+                                class="form-group">
+                                <input ngModel name="password" type="password" class="form-control"
+                                    placeholder="{{ (mode === 'reset-forgot-password' && tokenValidated === true && (authService.loading|async) === false) ? 'New ' : '' }}Password"
+                                    required="">
+                            </div>
+                            <div *ngIf="(mode === 'reset-forgot-password' && tokenValidated === true && (authService.loading|async) === false) "
+                                class="form-group">
+                                <input ngModel name="confirmPassword" type="password" class="form-control"
+                                    placeholder="Confirm Password" required="">
+                            </div>
+                            <button type="submit" *ngIf="mode === 'login'"
+                                class="btn btn-primary block full-width m-b">Login</button>
+                        </form>
+
+
+
+                        <!-- Token Expired or Invalid -->
+                        <p class="text-center text-danger"
+                            *ngIf="(authService.loading|async) === false && tokenValidated === false && mode==='reset-forgot-password'">
+                            The password reset request is invalid or has expired. Password reset requests are only
+                            valid for ten minutes. Please submit a new password reset request or login to continue. </p>
+
+
+                        <!-- Alternate Modes -->
+                        <button type="custom"
+                            *ngIf="(mode === 'reset-forgot-password' && tokenValidated === true && (authService.loading|async) === false)"
+                            class="btn btn-primary block full-width m-b"
+                            (click)="setNewPasswords(f.value.password, f.value.confirmPassword)">Set New
+                            Password</button>
+                        <button type="custom" *ngIf="mode === 'forgot-password'"
+                            class="btn btn-primary block full-width m-b" (click)="sendRecovery(f.value.email)">Send
+                            reset password link</button>
+
+                        <div class="alt-login-button text-center m-t pointer"
+                            *ngIf="mode === 'login' || (mode === 'reset-forgot-password' && tokenValidated !== undefined && (authService.loading|async) === false)"
+                            (click)="toggleMode('forgot-password')">
+                            Request Password Reset</div>
+                        <div class="alt-login-button text-center m-t pointer"
+                            *ngIf="mode === 'forgot-password' || (mode === 'reset-forgot-password' && tokenValidated !== undefined && (authService.loading|async) === false)"
+                            (click)="toggleMode()">
+                            Log In</div>
+
+                        <div *ngIf="error && (authService.loading|async) === false" class="m-t"
+                            ngClass="{'text-danger':error.code !== 200}">{{error}}
+                        </div>
+
+                        <!-- Token Validation Failed -->
+                        <p class="text-center text-danger"
+                            *ngIf="(authService.loading|async) === false && tokenValidated === undefined && mode==='reset-forgot-password'">
+                            An error has occured validating your password reset request. Please try again.</p>
+                        <div class="alt-login-button text-center m-t pointer"
+                            *ngIf="(authService.loading|async) === false && tokenValidated === undefined && mode==='reset-forgot-password'"
+                            (click)="verifyToken()">
+                            Retry Validation <i class="fas fa-redo"></i></div>
+
+                        <!-- Loading and status text -->
+                        <div *ngIf="(authService.loading|async) === true" class="m-t text-center"> <i
+                                class="text-muted fas fa-spinner fa-spin"></i></div>
+                        <p class="text-center"
+                            *ngIf="(authService.loading|async) === true && tokenValidated === undefined && mode==='reset-forgot-password'">
+                            Validating...</p>
+                        <div *ngIf="(authService.authentication|async) && (authService.authentication|async)?.token !== undefined"
+                            class="m-t text-center text-muted">Success!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--
+<div class="">
+    <form #f="ngForm" (ngSubmit)="formSubmit(f)" class="">
+        <div class="form-group col-lg-4" style="float: left;">
+            <input ngModel name="email" type="text" class="form-control form-control-lg" placeholder="Email" email
+                required />
+        </div>
+        <div class="form-group col-lg-4" style="float: left;">
+            <input ngModel name="password" type="password" class="form-control form-control-lg" placeholder="Password"
+                required />
+        </div>
+        <div class="login-buttons col-lg-4" style="float: left;">
+            <button type="submit" class="btn btn-success btn-block btn-lg">Sign In</button>
+        </div>
+        <div class="invalid-feedback form-group" style="display:block;" *ngIf="error!=null">
+            {{error}}
+        </div>
+    </form>
+</div> -->

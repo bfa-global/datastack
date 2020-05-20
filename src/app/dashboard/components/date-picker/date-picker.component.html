@@ -1,0 +1,28 @@
+<ng-container *ngIf="component.options && component.options.hasOwnProperty('return')">
+    <ng-container *ngIf="component.options.return === 'single'">
+        <ng-container [ngSwitch]="component.options.period">
+            <nz-date-picker *ngSwitchCase="'day'" class="date-picker" [(ngModel)]="dates[0]" (ngModelChange)="onChange($event)"></nz-date-picker>
+            <nz-week-picker *ngSwitchCase="'week'" [(ngModel)]="dates[0]" (ngModelChange)="getWeek($event)" nzPlaceHolder="Select week"></nz-week-picker>
+            <nz-month-picker *ngSwitchCase="'month'" [(ngModel)]="dates[0]" (ngModelChange)="onChange($event)" nzPlaceHolder="Select month"></nz-month-picker>
+            <nz-year-picker *ngSwitchCase="'year'" [(ngModel)]="dates[0]" (ngModelChange)="onChange($event)" nzPlaceHolder="Select year"></nz-year-picker>
+            <ng-container *ngSwitchDefault>Didn't Match</ng-container>
+        </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="component.options.return === 'range'">
+        <ng-container [ngSwitch]="component.options.period">
+            <nz-range-picker *ngSwitchCase="'day'" [(ngModel)]="dates" (ngModelChange)="onChange($event)"></nz-range-picker>
+            <div *ngSwitchCase="'month'" class="range-group ant-calendar-picker">
+                <nz-month-picker [(ngModel)]="dates[0]" (ngModelChange)="onChange($event)" nzPlaceHolder="Start month"></nz-month-picker>
+                <span>-</span>
+                <nz-month-picker [(ngModel)]="dates[1]" (ngModelChange)="onChange($event)" nzPlaceHolder="End month"></nz-month-picker>
+            </div>
+            <div *ngSwitchCase="'year'" class="range-group ant-calendar-picker">
+                <nz-year-picker [(ngModel)]="dates[0]" (ngModelChange)="onChange($event)" nzPlaceHolder="Start year"></nz-year-picker>
+                <span>-</span>
+                <nz-year-picker [(ngModel)]="dates[1]" (ngModelChange)="onChange($event)" nzPlaceHolder="End year"></nz-year-picker>
+            </div>
+            <ng-container *ngSwitchDefault></ng-container>
+        </ng-container>
+    </ng-container>
+</ng-container>

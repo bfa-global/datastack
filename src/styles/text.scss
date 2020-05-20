@@ -1,0 +1,107 @@
+@import "colors.scss";
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+  width: 100%;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+b,
+strong,
+.b,
+.text-strong {
+  font-weight: 700;
+}
+
+.text-muted {
+  color: $color-muted;
+}
+
+.text-primary {
+  color: $color-primary;
+}
+
+a.text-primary:focus,
+a.text-primary:hover {
+  color: $color-primary-focus;
+}
+
+.text-secondary {
+  color: $color-secondary;
+}
+
+a.text-secondary:focus,
+a.text-secondary:hover {
+  color: $color-secondary-focus;
+}
+
+.text-success {
+  color: $color-success;
+}
+
+a.text-success:focus,
+a.text-success:hover {
+  color: $color-success-focus;
+}
+
+.text-info {
+  color: $color-info;
+}
+
+a.text-info:focus,
+a.text-info:hover {
+  color: $color-info;
+}
+
+.text-warning {
+  color: $color-warning;
+}
+
+a.text-warning:focus,
+a.text-warning:hover {
+  color: $color-warning-focus;
+}
+
+.text-danger {
+  color: $color-danger;
+}
+
+a.text-danger:focus,
+a.text-danger:hover {
+  color: $color-danger-focus;
+}
+
+.text-button {
+  cursor: pointer;
+}

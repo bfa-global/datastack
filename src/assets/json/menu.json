@@ -1,0 +1,17 @@
+[
+    {
+        "icon": "fa fa-map",
+        "title": "Map",
+        "pageTitle": "Map",
+        "href": "map",
+        "authorizedPersonas": []
+    },
+    {
+        "icon": "fa fa-chart-bar",
+        "title": "Dashboard",
+        "pageTitle": "Dashboard",
+        "href": "dashboard",
+        "layout_url": "assets/json/dashboard.json",
+        "authorizedPersonas": []
+    }
+]

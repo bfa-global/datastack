@@ -1,0 +1,31 @@
+h3, h4 {
+  margin: 0;
+  padding: 0 15px;
+}
+
+.loading-container {
+  text-align: center;
+  position: relative;
+  min-height: 100px;
+  padding: 0;
+  margin: 0;
+}
+
+.layer-group {
+  padding-bottom: 25px;
+}
+
+.layer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.row-item {
+  padding: 10px 15px;
+}
+
+.layer:hover {
+  background-color: #eeeeee;
+}

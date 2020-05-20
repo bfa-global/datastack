@@ -1,0 +1,3 @@
+<div class="m-b-not-last" *ngFor="let component of visualization.components">
+    <app-visualization-component [component]="component" (actions)="actionHandler.handleActions($event, visualization.components)"></app-visualization-component>
+</div>

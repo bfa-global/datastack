@@ -1,0 +1,145 @@
+[
+    {
+        "id": "fsp",
+        "title": "FSP",
+        "sql": "SELECT (CASE WHEN type_='Bank Agent' THEN ba_name WHEN type_='Bureau de Change' THEN bdc_name WHEN type_='Commercial Bank' THEN c_bank_name WHEN type_='Development Finance Institution' THEN dfi_name WHEN type_='Markets' THEN mar_name WHEN type_='Microfinance Bank' THEN mfb_name WHEN type_='Microfinance Institutions' THEN mfi_name WHEN type_='Mobile Money Agent' THEN mma_name WHEN type_='Motor Parks' THEN mp_name WHEN type_='NAICOM' THEN nai_name WHEN type_='Off Site ATM' THEN os_atm_name WHEN type_='PENCOM' THEN pen_name WHEN type_='Post Offices' THEN po_name WHEN type_='Securities Exchange Commission' THEN sec_name ELSE 'n/a' END) AS name, type_ AS category, status AS operational, (CASE WHEN status='Yes' THEN 'n/a' ELSE why_not_operational END) AS why_not_operational, outlet_type, regulated, address, lga, state, form_submitted AS last_updated, geog FROM nigeria_demo.fsp",
+        "datasource": "BigQuery",
+        "type": "DataLayer",
+        "style": {
+            "layer": {
+                "marker-width": 5,
+                "marker-fill-opacity": 0.7,
+                "marker-allow-overlap": true,
+                "marker-line-width": 0,
+                "marker-line-opacity": 1,
+                "marker-line-color": "#000000",
+                "marker-comp-op": "multiply",
+                "marker-fill": "#FF0000"
+            }
+        },
+        "actions": [
+            {
+                "componentId": "dashboard",
+                "key": "layoutUrl",
+                "value": "assets/json/dashboard.json"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "title",
+                "value": "User Detail"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "dataItem",
+                "value": "{dataItem}"
+            },
+            {
+                "componentId": "dashboard",
+                "key": "visible",
+                "value": true
+            }
+        ],
+        "filters": [
+            {
+                "title": "Business Sector",
+                "column": "business_sector",
+                "optionsSql": "SELECT distinct {username}.users.business_sector as title,  {username}.users.business_sector as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "Business Type",
+                "column": "business_type",
+                "optionsSql": "SELECT distinct {username}.users.business_type as title,  {username}.users.business_type as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "City",
+                "column": "city",
+                "optionsSql": "SELECT distinct {username}.users.city as title,  {username}.users.city as val FROM {username}.users order by title asc",
+                "type": "picker"
+            },
+            {
+                "title": "State",
+                "column": "state",
+                "optionsSql": "SELECT distinct {username}.users.state as title,  {username}.users.state as val FROM {username}.users order by title asc",
+                "type": "picker"
+            }
+        ]
+    },
+    {
+        "id": "fii",
+        "title": "FII",
+        "datasource": "BigQuery",
+        "sql": "SELECT category, STRING_AGG(spss_variable_name, ',') AS vars, STRING_AGG(IFNULL(viz,''), '|||') AS visualization_types, STRING_AGG(regexp_replace(label, concat(spss_variable_name, '.'), CONCAT(LOWER(IFNULL(spss_variable_name,'')), '. ')), '|||') AS visualization_titles FROM nigeria_demo.fii_codebook_condensed GROUP BY category ORDER BY 1 ASC",
+        "type": "SelectableLayer",
+        "compoundTitleKey": "category",
+        "selectableVisualizationTypeKey": "visualization_types",
+        "selectableVisualizationTitleKey": "visualization_titles",
+        "compoundQueryKeys": [
+            "vars"
+        ],
+        "compoundSubQuery": "SELECT {0} FROM nigeria_demo.fii_condensed",
+        "style": {
+            "fillColor": "ramp(data, (#c9e7df, #9CCDC1, #63A6A0, #337F7F, #0D585F)",
+            "fillOpacity": 0.8,
+            "weight": 1,
+            "color": "#ffffff",
+            "strokeOpacity": 0.5
+        }
+    },
+    {
+        "id": "electric",
+        "title": "Electricity Access",
+        "datasource": "BigQuery",
+        "sql": "SELECT id, length_km, year, voltage_kv, operator, country, source, status, geog FROM nigeria_demo.electricity_access",
+        "type": "BaseLayer",
+        "style": {
+            "weight": 1.5,
+            "color": "#383838",
+            "strokeOpacity": 0.6
+        }
+    },
+    {
+        "id": "solar",
+        "title": "Solar Potential",
+        "datasource": "BigQuery",
+        "sql": "SELECT id, ghi_kwh_m2, CAST((ghi_kwh_m2-(SELECT MIN(ghi_kwh_m2) FROM nigeria_demo.solar_potential))/((SELECT MAX(ghi_kwh_m2) FROM nigeria_demo.solar_potential)-(SELECT MIN(ghi_kwh_m2) FROM nigeria_demo.solar_potential)) AS numeric) AS data, iso, geog FROM nigeria_demo.solar_potential",
+        "type": "BaseLayer",
+        "style": {
+            "palette": "warm",
+            "fillColor": "ramp(data)",
+            "fillOpacity": 0.6,            
+            "weight": 1,
+            "color": "#ffffff",
+            "strokeOpacity": 0.5
+        }
+    },
+    {
+        "id": "population_density",
+        "title": "Population Density",
+        "datasource": "BigQuery",
+        "sql": "SELECT dn/CAST((SELECT MAX(dn) FROM nigeria_demo.population_density) AS NUMERIC) AS data, geog FROM nigeria_demo.population_density",
+        "type": "BaseLayer",
+        "style": {
+            "fillColor": "ramp(data, #f7f7f7, #cccccc, #969696, #636363, #252525)",
+            "fillOpacity": 0.7,
+            "weight": 0.1,
+            "color": "#ffffff",
+            "strokeOpacity": 1
+        }
+    },
+    {
+        "id": "population",
+        "title": "Population",
+        "datasource": "BigQuery",
+        "sql": "SELECT p.region, p.state, p.population_91, p.male, p.female, p.total_pop, p.land_area, p.inter_census_growth, p.density, p.total_pop/(SELECT MAX(total_pop) FROM nigeria_demo.population) AS data, p.geog FROM nigeria_demo.population AS p",
+        "type": "BaseLayer",
+        "style": {
+            "fillColor": "ramp(data, #f7f7f7, #cccccc, #969696, #636363, #252525)",
+            "fillOpacity": 0.7,
+            "weight": 0.1,
+            "color": "#333333",
+            "strokeOpacity": 0.7
+        }
+    }
+]

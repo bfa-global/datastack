@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+}
+
+.permission-table th:not(:first-child),
+.permission-table td:not(:first-child) {
+  width: 60px;
+  text-align: center;
+  min-height: 40px;
+  padding: 5px;
+}
+
+.permission-table tr {}
+
+.permission-table tr:nth-child(even) {
+  background: #eee;
+}
+
+.permission-table tr:nth-child(odd) {
+  background: #fff;
+}
+
+.btn-offset {
+  margin-left: 30px;
+}

@@ -1,0 +1,12 @@
+.fas {
+  padding: 3px;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.gray {
+  color: gray !important;
+}

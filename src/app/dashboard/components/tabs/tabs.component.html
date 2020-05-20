@@ -1,0 +1,21 @@
+<div class="tabs-container">
+  <ul class="nav nav-tabs" role="tablist" dragula="tabs" [dragulaModel]="tabs">
+    <li *ngFor="let tab of tabs; let i = index">
+      <a class="nav-link" data-toggle="tab" (click)="index=i" [ngClass]="{active: i === index}"> {{tabs[i].title}} </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active show">
+      <div class="tab-title move-pointer">
+        <h5>{{tabs[index].visualization.title}}</h5>
+        <app-toolbar *ngIf="tabs[index].visualization.toolbar" [toolbar]="tabs[index].visualization.toolbar"></app-toolbar>
+      </div>
+      <div class="panel-body">
+        <app-visualization [visualization]="tabs[index].visualization"></app-visualization>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

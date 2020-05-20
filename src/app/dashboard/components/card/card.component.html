@@ -1,0 +1,10 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title" *ngIf="title">
+    <h5>{{title}}</h5>
+    <ng-content select="[toolbar]"></ng-content>
+    <app-toolbar *ngIf="toolbar" [toolbar]="toolbar"></app-toolbar>
+  </div>
+  <div class="ibox-content">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+$sidenav-width: 220px;
+
+.content-width {
+  // margin: 4rem 0 5rem 0;
+  margin: 52px 0 0 0;
+  padding: 15px;
+}
+
+#page-wrapper {
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  #page-wrapper {
+    position: inherit;
+  }
+
+  .content-padding {
+    margin-left: $sidenav-width;
+    width: calc(100% - #{$sidenav-width});
+  }
+}
+
+.sidenav-hidden {
+  transform: translateX(-$sidenav-width);
+}
+
+.flex {
+  width: 100%;
+  display: flex;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.content-size {
+  min-width: 320px;
+}

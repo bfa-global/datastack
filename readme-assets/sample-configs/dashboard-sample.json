@@ -1,0 +1,1039 @@
+[
+    {
+        "title": "Key Performance Indicators",
+        "left": "Latest data as of: %summary-daily.loaded-time%",
+        "right": "<span>Source: <a href=\"https://data-source.com/\" target=\"_blank\">datasource.com</a></span>",
+        "carousel": true,
+        "elements": [
+            {
+                "id": "success-rate-element",
+                "title": "Success Rate",
+                "type": "visualization",
+                "classes": "col-9 col-sm-6 col-md-4 col-lg-4",
+                "toolbar": [
+                    {
+                        "icon": "fas fa-info-circle",
+                        "tooltip": "This speedometer indicates the rate of success for the selected period. The indicator below the speedometer indicates how this value has changed since the prior period."
+                    }
+                ],
+                "components": [
+                    {
+                        "id": "speedo",
+                        "title": "Success Rate",
+                        "type": "speedometer",
+                        "showLoading": true,
+                        "showError": true,
+                        "dataRefs": [
+                            {
+                                "dataSourceId": "test-api",
+                                "operationId": "summary",
+                                "parameters": {
+                                    "period": "daily",
+                                    "startDate": "2017-06-30",
+                                    "endDate": "2017-06-30",
+                                    "reportType": "credit",
+                                    "Authorization": "Bearer {authentication_token}"
+                                },
+                                "displayValue": "failedVolumes / totalVolumes"
+                            }
+                        ],
+                        "options": {
+                            "maxValue": 0.15,
+                            "labelFormat": ".0%",
+                            "arcColors": [
+                                "#38A086",
+                                "#51BDA2",
+                                "#87d6c6",
+                                "#F59B47",
+                                "#E63B52"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "kpi",
+                        "title": "POS Failure Rate vs. Prior Day",
+                        "type": "kpi",
+                        "dataRefs": [
+                            {
+                                "dataSourceId": "test-api",
+                                "operationId": "summary",
+                                "parameters": {
+                                    "period": "daily",
+                                    "startDate": "2017-06-30",
+                                    "endDate": "2017-06-30",
+                                    "reportType": "credit",
+                                    "Authorization": "Bearer {authentication_token}"
+                                },
+                                "displayValue": "failedVolumes / totalVolumes",
+                                "calculation": "vs_prior_day"
+                            }
+                        ],
+                        "options": {
+                            "format": ".1%",
+                            "small": "vs. prior day"
+                        }
+                    },
+                    {
+                        "id": "control-group",
+                        "type": "group",
+                        "components": [
+                            {
+                                "id": "segmented-control",
+                                "title": "Period",
+                                "type": "segmented-button",
+                                "options": {
+                                    "segments": [
+                                        {
+                                            "title": "Daily",
+                                            "actions": [
+                                                {
+                                                    "componentId": "speedo",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "daily"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "daily"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "options.small",
+                                                    "value": "vs. prior day"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].calculation",
+                                                    "value": "vs_prior_day"
+                                                },
+                                                {
+                                                    "componentId": "date-control",
+                                                    "key": "options.period",
+                                                    "value": "day"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Monthly",
+                                            "actions": [
+                                                {
+                                                    "componentId": "speedo",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "monthly"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "monthly"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "options.small",
+                                                    "value": "vs. prior month"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].calculation",
+                                                    "value": "vs_prior_month"
+                                                },
+                                                {
+                                                    "componentId": "date-control",
+                                                    "key": "options.period",
+                                                    "value": "month"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Yearly",
+                                            "actions": [
+                                                {
+                                                    "componentId": "speedo",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "yearly"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].parameters.period",
+                                                    "value": "yearly"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "options.small",
+                                                    "value": "vs. prior year"
+                                                },
+                                                {
+                                                    "componentId": "kpi",
+                                                    "key": "dataRefs[0].calculation",
+                                                    "value": "vs_prior_year"
+                                                },
+                                                {
+                                                    "componentId": "date-control",
+                                                    "key": "options.period",
+                                                    "value": "year"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "date-control",
+                                "title": "Date",
+                                "type": "date-picker",
+                                "options": {
+                                    "return": "single",
+                                    "period": "day",
+                                    "initialStart": "2017-06-30",
+                                    "actions": [
+                                        {
+                                            "componentId": "speedo",
+                                            "key": "dataRefs[0].parameters.startDate",
+                                            "value": "{startDate}"
+                                        },
+                                        {
+                                            "componentId": "speedo",
+                                            "key": "dataRefs[0].parameters.endDate",
+                                            "value": "{startDate}"
+                                        },
+                                        {
+                                            "componentId": "kpi",
+                                            "key": "dataRefs[0].parameters.startDate",
+                                            "value": "{startDate}"
+                                        },
+                                        {
+                                            "componentId": "kpi",
+                                            "key": "dataRefs[0].parameters.endDate",
+                                            "value": "{startDate}"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Detailed Summary",
+        "left": "Latest data as of: %summary-daily.loaded-time%",
+        "right": "<span>Source: <a href=\"https://data-source.com/\" target=\"_blank\">datasource.com</a></span>",
+        "carousel": true,
+        "elements": [
+            {
+                "type": "tabs",
+                "classes": "col-11 col-sm-11 col-md-9 col-lg-9",
+                "tabs": [
+                    {
+                        "title": "Absolute",
+                        "visualization": {
+                            "title": "Absolute Values",
+                            "type": "visualization",
+                            "classes": "col-11 col-sm-11 col-md-9 col-lg-9",
+                            "toolbar": [
+                                {
+                                    "icon": "fas fa-info-circle",
+                                    "tooltip": "This is where you will learn about absolute values"
+                                }
+                            ],
+                            "components": [
+                                {
+                                    "id": "absolute-graph",
+                                    "title": "POS Summary",
+                                    "type": "graph",
+                                    "options": {
+                                        "mapping": {
+                                            "x_data": "0",
+                                            "ybar_data": "0",
+                                            "yline_data": "1",
+                                            "x": "date",
+                                            "ybar_value": "totalValues",
+                                            "yline_value": "totalVolumes"
+                                        },
+                                        "$schema": "https://vega.github.io/schema/vega/v5.json",
+                                        "width": 400,
+                                        "height": 200,
+                                        "padding": 5,
+                                        "data": [],
+                                        "signals": [
+                                            {
+                                                "name": "tooltip",
+                                                "value": {},
+                                                "on": [
+                                                    {
+                                                        "events": "rect:mouseover",
+                                                        "update": "datum"
+                                                    },
+                                                    {
+                                                        "events": "rect:mouseout",
+                                                        "update": "{}"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "scales": [
+                                            {
+                                                "name": "xscale",
+                                                "type": "band",
+                                                "domain": {
+                                                    "data": "{x_data}",
+                                                    "field": "{x}"
+                                                },
+                                                "range": "width",
+                                                "padding": 0.5,
+                                                "round": true
+                                            },
+                                            {
+                                                "name": "ybar",
+                                                "domain": {
+                                                    "data": "{ybar_data}",
+                                                    "field": "{ybar_value}"
+                                                },
+                                                "nice": true,
+                                                "range": "height"
+                                            },
+                                            {
+                                                "name": "yline",
+                                                "domain": {
+                                                    "data": "{yline_data}",
+                                                    "field": "{yline_value}"
+                                                },
+                                                "nice": true,
+                                                "range": "height"
+                                            }
+                                        ],
+                                        "resolve": {
+                                            "scale": {
+                                                "yline": "independent"
+                                            }
+                                        },
+                                        "axes": [
+                                            {
+                                                "orient": "bottom",
+                                                "scale": "xscale",
+                                                "labelAngle": -60,
+                                                "labelPadding": 5,
+                                                "labelAlign": "right",
+                                                "labelFont": "sans-serif",
+                                                "labelColor": "#676a6c",
+                                                "ticks": false,
+                                                "domainOpacity": 0
+                                            },
+                                            {
+                                                "orient": "right",
+                                                "scale": "ybar",
+                                                "labelAlign": "right",
+                                                "labelPadding": 70,
+                                                "tickCount": 6,
+                                                "labelFont": "sans-serif",
+                                                "labelColor": "#676a6c",
+                                                "ticks": false,
+                                                "domainOpacity": 0,
+                                                "format": ",.2r",
+                                                "title": "Value of Transactions",
+                                                "titlePadding": 10,
+                                                "titleColor": "#85C5A6"
+                                            },
+                                            {
+                                                "orient": "left",
+                                                "scale": "yline",
+                                                "labelAlign": "right",
+                                                "tickCount": 6,
+                                                "labelFont": "sans-serif",
+                                                "labelColor": "#676a6c",
+                                                "ticks": false,
+                                                "domainOpacity": 0,
+                                                "title": "Number of Transactions",
+                                                "titlePadding": 10,
+                                                "titleColor": "rgb(28, 132, 198)"
+                                            }
+                                        ],
+                                        "marks": [
+                                            {
+                                                "type": "rect",
+                                                "from": {
+                                                    "data": "{ybar_data}"
+                                                },
+                                                "encode": {
+                                                    "enter": {
+                                                        "x": {
+                                                            "scale": "xscale",
+                                                            "field": "{x}"
+                                                        },
+                                                        "width": {
+                                                            "scale": "xscale",
+                                                            "band": 1
+                                                        },
+                                                        "y": {
+                                                            "scale": "ybar",
+                                                            "field": "{ybar_value}"
+                                                        },
+                                                        "y2": {
+                                                            "scale": "ybar",
+                                                            "value": 0
+                                                        }
+                                                    },
+                                                    "update": {
+                                                        "fill": {
+                                                            "value": "#BCE0D5"
+                                                        }
+                                                    },
+                                                    "hover": {
+                                                        "fill": {
+                                                            "value": "red"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "text",
+                                                "encode": {
+                                                    "enter": {
+                                                        "align": {
+                                                            "value": "center"
+                                                        },
+                                                        "baseline": {
+                                                            "value": "bottom"
+                                                        },
+                                                        "fill": {
+                                                            "value": "#333"
+                                                        }
+                                                    },
+                                                    "update": {
+                                                        "x": {
+                                                            "scale": "xscale",
+                                                            "signal": "tooltip.date",
+                                                            "band": 0.5
+                                                        },
+                                                        "y": {
+                                                            "scale": "ybar",
+                                                            "signal": "tooltip.{ybar_value}",
+                                                            "offset": -2
+                                                        },
+                                                        "text": {
+                                                            "signal": "tooltip.{ybar_value}"
+                                                        },
+                                                        "fillOpacity": [
+                                                            {
+                                                                "test": "datum === tooltip",
+                                                                "value": 0
+                                                            },
+                                                            {
+                                                                "value": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "area",
+                                                "from": {
+                                                    "data": "{yline_data}"
+                                                },
+                                                "encode": {
+                                                    "enter": {
+                                                        "x": {
+                                                            "scale": "xscale",
+                                                            "field": "{x}",
+                                                            "offset": 0
+                                                        },
+                                                        "y": {
+                                                            "scale": "yline",
+                                                            "field": "{yline_value}"
+                                                        },
+                                                        "y2": {
+                                                            "scale": "yline",
+                                                            "value": 0
+                                                        }
+                                                    },
+                                                    "update": {
+                                                        "fillOpacity": {
+                                                            "value": 0.4
+                                                        },
+                                                        "fill": {
+                                                            "value": "#1c84c6"
+                                                        }
+                                                    },
+                                                    "hover": {}
+                                                }
+                                            },
+                                            {
+                                                "type": "line",
+                                                "from": {
+                                                    "data": "{yline_data}"
+                                                },
+                                                "encode": {
+                                                    "enter": {
+                                                        "x": {
+                                                            "scale": "xscale",
+                                                            "field": "{x}",
+                                                            "offset": 0
+                                                        },
+                                                        "y": {
+                                                            "scale": "yline",
+                                                            "field": "{yline_value}"
+                                                        },
+                                                        "y2": {
+                                                            "scale": "yline",
+                                                            "value": 0
+                                                        }
+                                                    },
+                                                    "update": {
+                                                        "fillOpacity": {
+                                                            "value": 0.5
+                                                        }
+                                                    },
+                                                    "hover": {
+                                                        "fillOpacity": {
+                                                            "value": 0.5
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "showLoading": true,
+                                    "showError": true,
+                                    "dataRefs": [
+                                        {
+                                            "dataSourceId": "test-api",
+                                            "operationId": "summary",
+                                            "parameters": {
+                                                "period": "daily",
+                                                "startDate": "2017-06-01",
+                                                "endDate": "2017-06-30",
+                                                "reportType": "credit",
+                                                "Authorization": "Bearer {authentication_token}"
+                                            },
+                                            "displayValue": "totalValues"
+                                        },
+                                        {
+                                            "dataSourceId": "test-api",
+                                            "operationId": "summary",
+                                            "parameters": {
+                                                "period": "daily",
+                                                "startDate": "2017-06-01",
+                                                "endDate": "2017-06-30",
+                                                "reportType": "credit",
+                                                "Authorization": "Bearer {authentication_token}"
+                                            },
+                                            "displayValue": "totalVolumes"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "absolute-control-group",
+                                    "type": "group",
+                                    "components": [
+                                        {
+                                            "id": "absolute-segmented-button",
+                                            "title": "Period",
+                                            "type": "segmented-button",
+                                            "options": {
+                                                "segments": [
+                                                    {
+                                                        "title": "Daily",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "daily"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[1].parameters.period",
+                                                                "value": "daily"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-date-control",
+                                                                "key": "options.period",
+                                                                "value": "day"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "Monthly",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "monthly"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[1].parameters.period",
+                                                                "value": "monthly"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-date-control",
+                                                                "key": "options.period",
+                                                                "value": "month"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "Yearly",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "yearly"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[1].parameters.period",
+                                                                "value": "yearly"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-date-control",
+                                                                "key": "options.period",
+                                                                "value": "year"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": "absolute-date-control",
+                                            "title": "Date Range",
+                                            "type": "date-picker",
+                                            "options": {
+                                                "return": "range",
+                                                "period": "day",
+                                                "initialStart": "2017-06-01",
+                                                "initialEnd": "2017-06-30",
+                                                "actions": [
+                                                    {
+                                                        "componentId": "absolute-graph",
+                                                        "key": "dataRefs[0].parameters.startDate",
+                                                        "value": "{startDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "absolute-graph",
+                                                        "key": "dataRefs[0].parameters.endDate",
+                                                        "value": "{endDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "absolute-table",
+                                                        "key": "dataRefs[0].parameters.startDate",
+                                                        "value": "{startDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "absolute-table",
+                                                        "key": "dataRefs[0].parameters.endDate",
+                                                        "value": "{endDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "absolute-graph",
+                                                        "key": "dataRefs[1].parameters.startDate",
+                                                        "value": "{startDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "absolute-graph",
+                                                        "key": "dataRefs[1].parameters.endDate",
+                                                        "value": "{endDate}"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": "absolute-dropdown",
+                                            "title": "Calculations",
+                                            "type": "dropdown",
+                                            "options": {
+                                                "initialSelectionIndex": 0,
+                                                "icon": "fas fa-calculator",
+                                                "selections": [
+                                                    {
+                                                        "title": "Absolute Value",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[0].calculation",
+                                                                "value": null
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[1].calculation",
+                                                                "value": null
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.mapping.ybar_value",
+                                                                "value": "totalValues"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.mapping.yline_value",
+                                                                "value": "totalVolumes"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[1].format",
+                                                                "value": ",.2r"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[2].format",
+                                                                "value": ",.2r"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[1].labelPadding",
+                                                                "value": 70
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.marks[2].encode.update.fill.value",
+                                                                "value": "#1c84c6"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "vs. prior period",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[0].calculation",
+                                                                "value": "percentage_change_vs_prior_day"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "dataRefs[1].calculation",
+                                                                "value": "percentage_change_vs_prior_day"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.mapping.ybar_value",
+                                                                "value": "percentage_change_vs_prior_day"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.mapping.yline_value",
+                                                                "value": "percentage_change_vs_prior_day"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[1].format",
+                                                                "value": "%"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[2].format",
+                                                                "value": "%"
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.axes[1].labelPadding",
+                                                                "value": 30
+                                                            },
+                                                            {
+                                                                "componentId": "absolute-graph",
+                                                                "key": "options.marks[2].encode.update.fill.value",
+                                                                "value": "#1c84c600"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "title": "Relative",
+                        "visualization": {
+                            "title": "Relative Values",
+                            "type": "visualization",
+                            "classes": "col-11 col-sm-11 col-md-9 col-lg-9",
+                            "toolbar": [
+                                {
+                                    "icon": "fas fa-info-circle",
+                                    "tooltip": "This is where you will learn about relative values"
+                                }
+                            ],
+                            "components": [
+                                {
+                                    "id": "relative-graph",
+                                    "title": "Relative Values",
+                                    "type": "graph",
+                                    "options": {
+                                        "mapping": {
+                                            "x_data": "0",
+                                            "x": "date",
+                                            "yline_data": "0",
+                                            "yline_value": "displayValue"
+                                        },
+                                        "$schema": "https://vega.github.io/schema/vega/v5.json",
+                                        "width": 400,
+                                        "height": 200,
+                                        "padding": 5,
+                                        "data": [],
+                                        "signals": [
+                                            {
+                                                "name": "tooltip",
+                                                "value": {},
+                                                "on": [
+                                                    {
+                                                        "events": "rect:mouseover",
+                                                        "update": "datum"
+                                                    },
+                                                    {
+                                                        "events": "rect:mouseout",
+                                                        "update": "{}"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "scales": [
+                                            {
+                                                "name": "xscale",
+                                                "type": "band",
+                                                "domain": {
+                                                    "data": "{x_data}",
+                                                    "field": "{x}"
+                                                },
+                                                "range": "width",
+                                                "padding": 0.5,
+                                                "round": true
+                                            },
+                                            {
+                                                "name": "yline",
+                                                "domain": {
+                                                    "data": "{yline_data}",
+                                                    "field": "{yline_value}"
+                                                },
+                                                "nice": true,
+                                                "range": "height"
+                                            }
+                                        ],
+                                        "resolve": {
+                                            "scale": {
+                                                "yline": "independent"
+                                            }
+                                        },
+                                        "axes": [
+                                            {
+                                                "orient": "bottom",
+                                                "scale": "xscale",
+                                                "labelAngle": -60,
+                                                "labelPadding": 5,
+                                                "labelAlign": "right",
+                                                "labelFont": "sans-serif",
+                                                "labelColor": "#676a6c",
+                                                "ticks": false,
+                                                "domainOpacity": 0
+                                            },
+                                            {
+                                                "orient": "left",
+                                                "scale": "yline",
+                                                "labelAlign": "right",
+                                                "tickCount": 6,
+                                                "labelFont": "sans-serif",
+                                                "labelColor": "#676a6c",
+                                                "ticks": false,
+                                                "domainOpacity": 0,
+                                                "title": "Failure Rate",
+                                                "format": "%",
+                                                "titlePadding": 10,
+                                                "titleColor": "rgb(28, 132, 198)"
+                                            }
+                                        ],
+                                        "marks": [
+                                            {
+                                                "type": "line",
+                                                "from": {
+                                                    "data": "{yline_data}"
+                                                },
+                                                "encode": {
+                                                    "enter": {
+                                                        "x": {
+                                                            "scale": "xscale",
+                                                            "field": "{x}",
+                                                            "offset": 0
+                                                        },
+                                                        "y": {
+                                                            "scale": "yline",
+                                                            "field": "{yline_value}"
+                                                        },
+                                                        "y2": {
+                                                            "scale": "yline",
+                                                            "value": 0
+                                                        }
+                                                    },
+                                                    "update": {
+                                                        "fillOpacity": {
+                                                            "value": 0.5
+                                                        }
+                                                    },
+                                                    "hover": {
+                                                        "fillOpacity": {
+                                                            "value": 0.5
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "showLoading": true,
+                                    "showError": true,
+                                    "dataRefs": [
+                                        {
+                                            "dataSourceId": "test-api",
+                                            "operationId": "summary",
+                                            "parameters": {
+                                                "period": "daily",
+                                                "startDate": "2017-06-01",
+                                                "endDate": "2017-06-30",
+                                                "reportType": "credit",
+                                                "Authorization": "Bearer {authentication_token}"
+                                            },
+                                            "displayValue": "failedVolumes / totalVolumes"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "relative-control-group",
+                                    "type": "group",
+                                    "components": [
+                                        {
+                                            "id": "relative-segmented-button",
+                                            "title": "Period",
+                                            "type": "segmented-button",
+                                            "options": {
+                                                "segments": [
+                                                    {
+                                                        "title": "Daily",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "daily"
+                                                            },
+                                                            {
+                                                                "componentId": "relative-date-control",
+                                                                "key": "options.period",
+                                                                "value": "day"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "Monthly",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "monthly"
+                                                            },
+                                                            {
+                                                                "componentId": "relative-date-control",
+                                                                "key": "options.period",
+                                                                "value": "month"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "Yearly",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "dataRefs[0].parameters.period",
+                                                                "value": "yearly"
+                                                            },
+                                                            {
+                                                                "componentId": "relative-date-control",
+                                                                "key": "options.period",
+                                                                "value": "year"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": "relative-date-control",
+                                            "title": "Date Range",
+                                            "type": "date-picker",
+                                            "options": {
+                                                "return": "range",
+                                                "period": "day",
+                                                "initialStart": "2017-06-01",
+                                                "initialEnd": "2017-06-30",
+                                                "actions": [
+                                                    {
+                                                        "componentId": "relative-graph",
+                                                        "key": "dataRefs[0].parameters.startDate",
+                                                        "value": "{startDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "relative-graph",
+                                                        "key": "dataRefs[0].parameters.endDate",
+                                                        "value": "{endDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "relative-table",
+                                                        "key": "dataRefs[0].parameters.startDate",
+                                                        "value": "{startDate}"
+                                                    },
+                                                    {
+                                                        "componentId": "relative-table",
+                                                        "key": "dataRefs[0].parameters.endDate",
+                                                        "value": "{endDate}"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": "relative-dropdown",
+                                            "title": "Calculations",
+                                            "type": "dropdown",
+                                            "options": {
+                                                "initialSelectionIndex": 0,
+                                                "icon": "fas fa-calculator",
+                                                "selections": [
+                                                    {
+                                                        "title": "Absolute Value",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "dataRefs[0].calculation",
+                                                                "value": null
+                                                            },
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "options.mapping.yline_value",
+                                                                "value": "displayValue"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "title": "vs. prior period",
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "dataRefs[0].calculation",
+                                                                "value": "vs_prior_day"
+                                                            },
+                                                            {
+                                                                "componentId": "relative-graph",
+                                                                "key": "options.mapping.yline_value",
+                                                                "value": "vs_prior_day"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

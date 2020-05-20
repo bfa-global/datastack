@@ -1,0 +1,27 @@
+<div>
+  <app-back-button (click)="mapSideNavService.toggleAddCompoundLayer()"></app-back-button>
+
+  <div class="layer-group">
+    <h4>Add Compound Layer</h4>
+    <ng-container *ngIf="(mapLayerService.compoundLayers | async) as allCompoundLayers; else loading;">
+      <ng-container *ngIf="allCompoundLayers.length !== 0; else empty;">
+        <div *ngFor="let layer of mapLayerService.inactiveCompoundLayers()" class="layer row-item pointer" (click)="displayLayer(layer)">
+          <span>{{layer.title}}</span>
+          <i class="fas fa-plus  text-primary"></i>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <app-endroad preset="loading"></app-endroad>
+  </div>
+</ng-template>
+
+<ng-template #empty>
+  <div class="row-item">
+    No layers to display.
+  </div>
+</ng-template>

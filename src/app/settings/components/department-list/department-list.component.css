@@ -1,0 +1,3 @@
+::ng-deep .fa-trash-alt:hover {
+  color: red !important;
+}

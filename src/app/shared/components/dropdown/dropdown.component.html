@@ -1,0 +1,7 @@
+<div class="btn-group dropdown-container" appDropdown [menu]="menu" [toggle]="toggle">
+  <button #toggleEl type="button" class="btn btn-sm btn-white dropdown-toggle">{{options[index]}} <span class="caret"></span></button>
+  <span *ngIf="icon" class="icon"><i [class]="icon"></i></span>
+  <ul #menuEl class="dropdown-menu child-menu">
+    <li><a *ngFor="let option of options; let i = index;" (click)="selectIndex(i)">{{option}}</a></li>
+  </ul>
+</div>

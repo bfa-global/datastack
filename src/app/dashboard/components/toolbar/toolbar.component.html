@@ -1,0 +1,5 @@
+<div *ngIf="toolbar" class="ibox-tools">
+  <button *ngFor="let tool of toolbar;let i = index" class="btn">
+    <i [class]="tool.icon" style="width:20px; text-align:center" (click)="selectedToolbarAction(i)" nz-popover nzPlacement="bottom" nzType="default" [nzContent]="tool.tooltip"></i>
+  </button>
+</div>
