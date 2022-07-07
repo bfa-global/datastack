@@ -31,7 +31,7 @@
     "jquery": "^3.4.0",
     "leaflet": "^1.4.0",
     "leaflet.markercluster": "^1.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ng-zorro-antd": "^7.5.1",
     "ng2-dragula": "^2.1.1",
     "ngx-color-picker": "^7.5.0",
